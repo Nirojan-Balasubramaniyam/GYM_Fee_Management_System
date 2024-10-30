@@ -1,0 +1,317 @@
+<style>
+    #addProgramCard {
+        margin-top: 70px;
+        background-color: #ecf0f1;
+        max-height: 100vh;
+        height: 650px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+        box-sizing: border-box;
+        padding: 6px;
+        width: 100%;
+    }
+
+    td a,
+    button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    td a {
+        font-size: 25px;
+    }
+
+    .edit-btn,
+    .save-btn {
+        color: #45a049;
+    }
+
+    .delete-btn {
+        color: #f44336;
+    }
+
+    #add-row {
+        background-color: green;
+        color: white;
+        border-radius: 5px;
+        border: none;
+    }
+
+    .table-container {
+        width: 100%;
+        text-align: left;
+        border-collapse: collapse;
+        background-color: white;
+        overflow-y: auto;
+    }
+
+    .table-container th,
+    .table-container td {
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+
+    .header {
+        background-color: #f44336;
+        font-weight: bold;
+        color: white;
+    }
+
+    .cell {
+        text-align: center;
+    }
+</style>
+
+<section id="content">
+    <h2 id="contentTitle">Add Training Programs</h2>
+    <div id="addProgramCard">
+        <div class="row">
+            <div class="col-12">
+                <table class="table-container">
+                    <thead>
+                        <tr class="header">
+                            <th class="cell">Program Id</th>
+                            <th class="cell">Program Name</th>
+                            <th class="cell">Program Type</th>
+                            <th class="cell">Program Cost</th>
+                            <th class="cell">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="body"></tbody>
+                </table>
+                <button id="add-row">Add Program</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const lastIdsUrl = "https://localhost:7256/api/LastId";
+        const trainingProgramsUrl = "https://localhost:7256/api/TrainigProgram";
+        const ProgramsTypesUrl = "https://localhost:7256/api/ProgramType";
+
+        let lastIds = [];
+        let trainingPrograms = [];
+        let trainingProgramTypes = [];
+
+       
+        async function fetchData() {
+
+            const lastidsResponse = await fetch(lastIdsUrl);
+            lastIds = await lastidsResponse.json();
+
+            const activitiesResponse = await fetch(trainingProgramsUrl);
+            trainingPrograms = await activitiesResponse.json();
+
+            const programTypeResponse = await fetch(ProgramsTypesUrl);
+            trainingProgramTypes = await programTypeResponse.json();
+
+        }
+
+        async function postApi(addURL, payload) {
+            const response = await fetch(addURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            return response;
+        }
+
+        async function putApi(updateURL, id, data) {
+            const response = await fetch(`${updateURL}/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }
+
+        async function deleteApi(deleteURL, id) {
+            const response = await fetch(`${deleteURL}/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+        }
+
+        async function updateLastIds(data) {
+            const response = await fetch(lastIdsUrl, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }
+
+        const programTableBody = document.querySelector('.body');
+
+        function displayPrograms() {
+
+            programTableBody.innerHTML = "";
+
+            trainingPrograms.forEach(program => {
+                const row = document.createElement('tr');
+                const programType = trainingProgramTypes.find(type => type.typeId === program.typeId);
+
+                row.innerHTML = `
+                <td class="cell">${program.programId}</td>
+                <td class="cell"><input type="text" value="${program.programName}" disabled></td>
+                <td class="cell">
+                    <select disabled>
+                        ${trainingProgramTypes.map(type => `
+                            <option value="${type.typeId}" ${program.typeId === type.typeId ? 'selected' : ''}>
+                                ${type.typeName}
+                            </option>`).join('')}
+                    </select>
+                </td>
+                <td class="cell"><input type="number" value="${program.cost}" disabled></td>
+                <td class="cell">
+                <a class="edit-btn"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a class="delete-btn"><i class="fa-solid fa-trash"></i></a>
+                </td>
+            `;
+
+                const editBtn = row.querySelector('.edit-btn');
+                const deleteBtn = row.querySelector('.delete-btn');
+
+                editBtn.addEventListener('click', () => editProgram(program.programId, editBtn));
+                deleteBtn.addEventListener('click', () => deleteProgram(program.programId));
+
+                programTableBody.appendChild(row);
+            });
+        }
+
+        async function deleteProgram(programID) {
+            let findedProgram = trainingPrograms.find(program => program.programId == programID)
+            if (confirm(`Do you want to delete the ${findedProgram.programName} Program`)) {
+                let deleteRes = await deleteApi(trainingProgramsUrl, programID);
+
+                alert(` ${findedProgram.programName} Program deleted Successfully`)
+                location.reload();
+            }
+        }
+
+        async function editProgram(programId, editBtn) {
+            const row = editBtn.closest('tr');
+            const textInput = row.querySelector('input[type="text"]');
+            const selectInput = row.querySelector('select');
+            const numberInput = row.querySelector('input[type="number"]');
+
+            if (editBtn.innerHTML.includes('fa-pen-to-square')) {
+                // Enable inputs and change button icon to Save
+                textInput.disabled = false;
+                selectInput.disabled = false;
+                numberInput.disabled = false;
+                editBtn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i>`;
+            } else {
+                // Collect values, disable inputs, and change button icon back to Edit
+                const updatedProgramName = textInput.value;
+                const updatedProgramType = selectInput.value;
+                const updatedProgramCost = numberInput.value;
+
+                textInput.disabled = true;
+                selectInput.disabled = true;
+                numberInput.disabled = true;
+                editBtn.innerHTML = `<i class="fa-solid fa-pen-to-square"></i>`;
+
+                // Store values in variables and make the PUT API call
+                const updatedProgram = {
+                    ProgramId: programId,
+                    ProgramName: updatedProgramName,
+                    TypeId: updatedProgramType,
+                    Cost: Number(updatedProgramCost)
+                };
+
+                const updateRes = await putApi(trainingProgramsUrl, programId, updatedProgram);
+                if (updateRes.ok) {
+                    alert('Program updated successfully');
+                } else {
+                    alert('Failed to update program');
+                }
+            }
+        }
+
+        document.getElementById("add-row").addEventListener("click", async () => {
+            const newRow = document.createElement('tr');
+            const newProgramId = generateID("P", lastIds.programId);
+
+            newRow.innerHTML = `
+                <td class="cell">${newProgramId}</td>
+                <td class="cell"><input type="text" value="" placeholder="Enter program name" required ></td>
+                 <td class="cell">
+                    <select required>
+                        <option>Select program type</option>
+                        ${trainingProgramTypes.map(type => `
+                            <option value="${type.typeId}">
+                                ${type.typeName}
+                            </option>`).join('')}
+                    </select>
+                </td>
+                <td class="cell"><input type="number" value="" placeholder="Enter program cost" required ></td>
+                <td class="cell">
+                    <a class="save-btn"><i class="fa-solid fa-floppy-disk"></i></a>
+                    <a class="delete-btn"><i class="fa-solid fa-trash"></i></a>
+                </td>
+            `;
+            programTableBody.appendChild(newRow);
+
+            const deleteBtn = newRow.querySelector(".delete-btn");
+            deleteBtn.addEventListener("click", () => {
+                newRow.remove(); // Remove the row directly
+            });
+
+            document.querySelector(".save-btn").addEventListener("click", async () => {
+                const programName = newRow.querySelector('input[type="text"]').value;
+                const programType = newRow.querySelector('select').value;
+                const programCost = newRow.querySelector('input[type="number"]').value;
+
+                if (!programName.value || !programType.value || !programCost.value) {
+                    alert("Please fill out all fields.");
+                    return;
+                }
+
+                const newProgram = {
+                    ProgramId: newProgramId,
+                    ProgramName: programName,
+                    TypeId: programType,
+                    Cost: Number(programCost)
+                };
+
+                let programAddResponse = await postApi(trainingProgramsUrl, newProgram);
+                if (programAddResponse.ok) {
+                    lastIds.programId++;
+                    await updateLastIds(lastIds);
+                    alert("Training Program Added Successfully");
+                    location.reload();
+                }
+            })
+
+        })
+
+        // Initialize data and display programs
+        await fetchData();
+        displayPrograms();
+
+    });
+
+</script>
