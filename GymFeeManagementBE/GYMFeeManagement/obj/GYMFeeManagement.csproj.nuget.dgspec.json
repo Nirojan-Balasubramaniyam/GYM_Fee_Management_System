@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rojan\\Desktop\\GYMFeemanagementBE - Copy (2)\\GYMFeeManagement\\GYMFeeManagement.csproj": {}
+    "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\GYMFeeManagement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rojan\\Desktop\\GYMFeemanagementBE - Copy (2)\\GYMFeeManagement\\GYMFeeManagement.csproj": {
+    "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\GYMFeeManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rojan\\Desktop\\GYMFeemanagementBE - Copy (2)\\GYMFeeManagement\\GYMFeeManagement.csproj",
+        "projectUniqueName": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\GYMFeeManagement.csproj",
         "projectName": "GYMFeeManagement",
-        "projectPath": "C:\\Users\\rojan\\Desktop\\GYMFeemanagementBE - Copy (2)\\GYMFeeManagement\\GYMFeeManagement.csproj",
+        "projectPath": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\GYMFeeManagement.csproj",
         "packagesPath": "C:\\Users\\rojan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rojan\\Desktop\\GYMFeemanagementBE - Copy (2)\\GYMFeeManagement\\obj\\",
+        "outputPath": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rojan\\AppData\\Roaming\\NuGet\\NuGet.Config",

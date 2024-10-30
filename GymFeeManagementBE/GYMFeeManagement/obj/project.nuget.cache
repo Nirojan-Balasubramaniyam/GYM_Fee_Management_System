@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Gf+noVGm8GuI4lmenLPZllJaKRvn3oupvm4Sy1Uq+2h01e8dzLtNbMJBBcbMjg5ecxnEuuQ7EOwiTnHQ7rd2kg==",
+  "dgSpecHash": "z1w7yG9SdxiDXhwTr/WSc75z3t6z3s83kKlVcqURDgGg3SLZjil45SUgBib9bI4tnbVAx2q1g7Uqi9Xb3LduQA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\rojan\\Desktop\\GYMFeemanagementBE - Copy (2)\\GYMFeeManagement\\GYMFeeManagement.csproj",
+  "projectFilePath": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\GYMFeeManagement.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rojan\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\rojan\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
