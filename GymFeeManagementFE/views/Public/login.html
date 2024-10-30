@@ -1,0 +1,352 @@
+<style>
+    body {
+        height: 100vh;
+        margin: 0;
+        /* display: flex;
+        justify-content: center;
+        align-items: center; */
+        position: relative;
+        overflow: hidden;
+    }
+
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('../../static/images/bg5.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        filter: blur(5px) brightness(0.7);
+        z-index: -1;
+    }
+
+    body h1,
+    p,
+    a,
+    button,
+    input {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+        box-sizing: border-box;
+    }
+
+    .login-container {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 400px;
+        position: relative;
+        left: 550px;
+        top: 10px;
+    }
+
+    .title {
+        font-size: 28px;
+        font-weight: bold;
+        color: rgb(66, 58, 58);
+        margin: auto auto;
+    }
+
+    .title span {
+        color: #ff6347;
+    }
+
+    .info-message,
+    .register-message {
+        margin: 15px 0;
+        color: #666;
+        font-size: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    input::placeholder {
+        color: #999;
+    }
+
+    .btn-login,
+    .btn-register {
+        display: inline-block;
+        background-color: #b71c1c;
+        color: white;
+        padding: 10px 24px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+        margin: 16px 0;
+        text-align: center;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-login:hover,
+    .btn-register:hover {
+        background-color: #e5533d;
+    }
+
+    .pw-forgot {
+        display: block;
+        color: #ff6347;
+        text-decoration: none;
+        font-size: 15px;
+        margin-top: 15px;
+        cursor: pointer;
+    }
+
+    .pw-forgot:hover {
+        text-decoration: underline;
+    }
+
+    .register-message {
+        margin-top: 2rem;
+    }
+
+    a.button {
+        text-decoration: none;
+    }
+    .modal-title{
+        color: #b71c1c;
+    }
+    #submitBtn{
+        background-color: #b71c1c;
+        color: white;
+    }
+</style>
+
+<main>
+    <div id="row d-flex align-middle">
+        <div class="col-12 login-container">
+            <strong class="title">FIT<span> or</span> FIGHT</strong>
+            <p class="info-message">Please Log in Here</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <input type="text" id="loginUsername" name="loginUsername" placeholder="Enter your Username/ NIC"
+                        required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter your Password"
+                        required>
+                </div>
+                <button type="submit" class="btn-login">Login</button>
+                <a class="pw-forgot" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password</a>
+            </form>
+            <p id="loginMessage"></p>
+            <p class="register-message">If you are a new member Please register here!</p>
+            <a href="/member-registration"><button id="registerBtn" class="btn-register">Register</button></a>
+        </div>
+    </div>
+
+
+
+    <!-- Modal  -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="forgotPasswordForm">
+                      
+                        <div class="mb-3">
+                            <label for="nicInput" class="form-label">Enter NIC</label>
+                            <input type="text" class="form-control" id="nicInput" required>
+                            <div id="nicErrorMessage" class="form-text text-danger d-none">NIC not found</div>
+                        </div>
+
+                        <!-- Mobile Number Input (Hidden Initially) -->
+                        <div class="mb-3 d-none" id="mobileNumberGroup">
+                            <label for="mobileInput" class="form-label">Enter Mobile Number</label>
+                            <input type="text" class="form-control" id="mobileInput" required>
+                            <div id="mobileErrorMessage" class="form-text text-danger d-none">Incorrect mobile number
+                            </div>
+                        </div>
+
+                        <!-- OTP Input (Hidden Initially) -->
+                        <div class="mb-3 d-none" id="otpGroup">
+                            <label for="otpInput" class="form-label">Enter OTP</label>
+                            <input type="text" class="form-control" id="otpInput" required>
+                            <div id="otpErrorMessage" class="form-text text-danger d-none">OTP does not match</div>
+                        </div>
+
+                        <!-- New Password Inputs (Hidden Initially) -->
+                        <div class="mb-3 d-none" id="passwordGroup">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" required>
+                        </div>
+                        <div class="mb-3 d-none" id="confirmPasswordGroup">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                            <div id="passwordErrorMessage" class="form-text text-danger d-none">Passwords do not match
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="button" class="btn" id="submitBtn">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+
+
+
+
+        const membersUrl = "https://localhost:7256/api/Member";
+        function encryptPassword(password) {
+            return btoa(password);
+        }
+        let members = [];
+        const memberResponse = await fetch(membersUrl);
+        members = await memberResponse.json();
+
+
+        document.getElementById('loginForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+
+            const userNameIdNic = document.getElementById('loginUsername').value.trim();
+            const password = (document.getElementById('loginPassword').value).trim();
+            let loggedInMember = members.find(member =>
+                (
+                    member.userName.toLowerCase() === userNameIdNic.toLowerCase() ||
+                    member.nic.toLowerCase() === userNameIdNic.toLowerCase() ||
+                    member.memberId.toLowerCase() === userNameIdNic.toLowerCase()
+                ) &&
+                member.password.toLowerCase() === password.toLowerCase()
+            );
+            console.log(loggedInMember)
+
+
+            if (loggedInMember) {
+                sessionStorage.setItem('loggedinMember', JSON.stringify(loggedInMember));
+
+                if (loggedInMember.userRoll === 'member') {
+                    console.log("if work")
+                    window.location.href = '/admin';
+                }
+                else {
+                    console.log("if work")
+
+                    window.location.href = '/admin';
+                }
+            }
+            else {
+                document.getElementById("loginMessage").textContent = "Invalid username or password.";
+            }
+        });
+
+
+        async function putApi(updateURL, id, data) {
+            const response = await fetch(`${updateURL}/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }      
+
+        let otpCode = null;
+        let isOtpVerified = false; // Flag to track OTP verification status
+
+        document.getElementById('submitBtn').addEventListener('click', async () => {
+            const nicInput = document.getElementById('nicInput').value.trim();
+            const phoneInput = document.getElementById('mobileInput').value.trim();
+            const otpInput = document.getElementById('otpInput').value.trim();
+            const newPassword = document.getElementById('newPassword').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+            // Step 1: Validate NIC
+            const member = members.find(member => member.nic === nicInput);
+            if (!member) {
+                document.getElementById('nicErrorMessage').classList.remove('d-none');
+                return;
+            } else {
+                document.getElementById('nicErrorMessage').classList.add('d-none');
+                document.getElementById('mobileNumberGroup').classList.remove('d-none');
+                document.getElementById('mobileInput').placeholder = `Enter your phone number ending in ...${member.phone.slice(-4)}`;
+            }
+
+            // Step 2: Validate Phone Number (only if OTP is not verified yet)
+            if (!isOtpVerified) {
+                if (member && phoneInput && phoneInput === member.phone) {
+                    document.getElementById('mobileErrorMessage').classList.add('d-none');
+                    document.getElementById('otpGroup').classList.remove('d-none');
+
+                    // Generate OTP only if it's not already generated
+                    if (!otpCode) {
+                        otpCode = Math.floor(10000 + Math.random() * 90000);
+                        alert(`Your OTP is: ${otpCode}`);
+                    }
+                } else if (phoneInput && phoneInput !== member.phone) {
+                    document.getElementById('mobileErrorMessage').classList.remove('d-none');
+                    return;
+                }
+            }
+
+            // Step 3: Validate OTP (only if OTP has not been verified yet)
+            if (otpCode && otpInput && !isOtpVerified) {
+                if (otpInput == otpCode) {
+                    isOtpVerified = true; 
+                    document.getElementById('otpErrorMessage').classList.add('d-none');
+                    document.getElementById('passwordGroup').classList.remove('d-none');
+                    document.getElementById('confirmPasswordGroup').classList.remove('d-none');
+                } else {
+                    document.getElementById('otpErrorMessage').classList.remove('d-none');
+                    return;
+                }
+            }
+
+            // Step 4: Validate New Passwords
+            if (isOtpVerified && newPassword && confirmPassword) {
+                if (newPassword !== confirmPassword) {
+                    document.getElementById('passwordErrorMessage').classList.remove('d-none');
+                } else {
+                    document.getElementById('passwordErrorMessage').classList.add('d-none');
+                    member.password = newPassword
+                    let updateRes = await putApi(membersUrl, member.memberId, member)
+                    alert("Password reset successful!");
+                    document.getElementById('forgotPasswordForm').reset(); 
+                    document.querySelector('#forgotPasswordModal').modal('hide'); 
+                    otpCode = null; 
+                    isOtpVerified = false;
+                }
+            }
+        });
+
+
+    })
+
+
+
+</script>
