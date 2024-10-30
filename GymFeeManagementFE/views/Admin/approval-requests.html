@@ -1,0 +1,821 @@
+<style>
+    #approvalRequestsContainer {
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        min-height: 100vh;
+        overflow-y: auto;
+    }
+
+    /* Table styling */
+    #approvalRequestsTable {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background-color: #fff;
+    }
+
+    #approvalRequestsTable thead {
+        background-color: #007bff;
+        color: white;
+    }
+
+    #approvalRequestsTable th,
+    #approvalRequestsTable td {
+        padding: 12px 15px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    #approvalRequestsTable td:hover {
+        background-color: #f1f1f1;
+    }
+
+    #approvalRequestsTable th {
+        font-weight: bold;
+    }
+
+    /* View button styling */
+    #approvalRequestsTable .viewButton {
+        background-color: #28a745;
+        color: white;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #approvalRequestsTable .viewButton:hover {
+        background-color: #218838;
+    }
+
+    /* Modal background */
+    #viewModal {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        overflow-y: auto;
+    }
+
+    .modal-content {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        height: 700px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 1000;
+        overflow-y: auto;
+    }
+
+
+    #viewModal .modal-content {
+        margin-bottom: 20px;
+    }
+
+    #viewModal h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    #viewModal .modal-content p {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+
+    /* Modal buttons */
+    button {
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    #acceptBtn {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    #rejectBtn {
+        background-color: #f44336;
+        color: white;
+    }
+
+    #closeModal {
+        background-color: #aaa;
+        color: white;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    #viewButton {
+        background-color: #f44336;
+        color: white;
+        margin: auto;
+    }
+
+    #viewButton :hover {
+        background-color: #560904;
+    }
+
+    #nonViewedApprovalsButton {
+        background-color: white;
+        color: darkblue;
+        border: 1px solid darkblue;
+    }
+
+    #approvalCard {
+        max-height: 100vh;
+        height: 650px;
+        overflow-y: auto;
+        margin-top: 50px;
+        background-color: #ecf0f1;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #viewedApprovalsButton {
+        background-color: #f44336;
+        color: white;
+    }
+</style>
+
+<section id="content">
+    <h2 id="contentTitle">Member Requests for Approval</h2>
+    <div id="approvalCard">
+        <div id="dynamicContent">
+            <div id="approvalRequestsSection">
+                <button id="nonViewedApprovalsButton">Pending Approvals</button>
+                <button id="viewedApprovalsButton">Reviewed Approvals</button>
+                <table id="approvalRequestsTable">
+                    <thead>
+                        <tr>
+                            <th>Approval Request ID</th>
+                            <th>Requested Member</th>
+                            <th>Approval Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody> </tbody>
+                </table>
+            </div>
+
+            <!-- Modal for showing request details -->
+            <div id="viewModal" class="modal" style="display:none;">
+                <div class="modal-content">
+                    <h3>Request Details</h3>
+                    <div id="requestDetails"></div>
+                    <button id="acceptBtn">Accept</button>
+                    <button id="rejectBtn">Reject</button>
+                    <button id="closeModal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+        const membersUrl = "https://localhost:7256/api/Member";
+        const trainingProgramsUrl = "https://localhost:7256/api/TrainigProgram";
+        const enrolledProgramsUrl = "https://localhost:7256/api/EnrollProgram";
+        const paymentsUrl = "https://localhost:7256/api/Payment";
+        const lastIdsUrl = "https://localhost:7256/api/LastId";
+        const alertsUrl = "https://localhost:7256/api/Alert";
+        const addRequestAlert = "https://localhost:7256/api/Alert/request-alert";
+        const RequestsUrl = "https://localhost:7256/api/Request";
+
+
+        let members = [];
+        let trainingPrograms = [];
+        let enrolledPrograms = [];
+        let payments = [];
+        let selectedActivities = [];
+        let newlySelectedActivities = [];
+        let originalEnrolledPrograms = [];
+        let lastIds = [];
+        let alerts = [];
+        let approvalRequests = [];
+        let currentRequest = null;
+
+        async function fetchData() {
+            const paymentResponse = await fetch(paymentsUrl);
+            const paymentsWhole = await paymentResponse.json();
+            payments = paymentsWhole.result;
+
+            const memberResponse = await fetch(membersUrl);
+            members = await memberResponse.json();
+
+            const lastidsResponse = await fetch(lastIdsUrl);
+            lastIds = await lastidsResponse.json();
+
+            const activitiesResponse = await fetch(trainingProgramsUrl);
+            trainingPrograms = await activitiesResponse.json();
+
+            const enrolledProgramsResponse = await fetch(enrolledProgramsUrl);
+            enrolledPrograms = await enrolledProgramsResponse.json();
+
+            const alertsResponse = await fetch(alertsUrl);
+            alerts = await alertsResponse.json();
+
+            const requestsResponse = await fetch(RequestsUrl);
+            approvalRequests = await requestsResponse.json();
+        }
+
+        await fetchData();
+
+        let requestDetailsDiv = document.getElementById("requestDetails");
+        let filterApprovalTable = "non-viewed";
+        let nonViewedReq = approvalRequests.filter(request => request.status === 'pending');
+        let nonViewedReqCount = nonViewedReq.length;
+
+        document.getElementById('viewedApprovalsButton').addEventListener('click', () => {
+            filterApprovalTable = 'viewed';
+            document.getElementById('nonViewedApprovalsButton').style.backgroundColor = "#f44336";
+            document.getElementById('nonViewedApprovalsButton').style.color = "white";
+            document.getElementById('viewedApprovalsButton').style.fontWeight = "bold";
+            document.getElementById('viewedApprovalsButton').style.backgroundColor = "white";
+            document.getElementById('viewedApprovalsButton').style.color = "darkblue";
+            document.getElementById('viewedApprovalsButton').style.border = "1px solid darkblue";
+            document.getElementById('nonViewedApprovalsButton').style.border = "none";
+            document.getElementById('nonViewedApprovalsButton').style.fontWeight = "normal";
+
+            populateApprovalRequestsTable();
+        });
+
+        document.getElementById('nonViewedApprovalsButton').addEventListener('click', () => {
+            filterApprovalTable = 'non-viewed';
+            document.getElementById('nonViewedApprovalsButton').style.backgroundColor = "white";
+            document.getElementById('nonViewedApprovalsButton').style.color = "darkblue";
+            document.getElementById('nonViewedApprovalsButton').style.fontWeight = "bold";
+            document.getElementById('viewedApprovalsButton').style.backgroundColor = "#f44336";
+            document.getElementById('viewedApprovalsButton').style.color = "white";
+            document.getElementById('viewedApprovalsButton').style.fontWeight = "normal";
+            document.getElementById('nonViewedApprovalsButton').style.border = "1px solid darkblue";
+            document.getElementById('viewedApprovalsButton').style.border = "none";
+
+            populateApprovalRequestsTable();
+        });
+
+        populateApprovalRequestsTable();
+
+        function populateApprovalRequestsTable() {
+            const tbody = document.querySelector('#approvalRequestsTable tbody');
+            tbody.innerHTML = '';
+
+            approvalRequests.forEach((request) => {
+                // Filter based on the selected button
+                if ((filterApprovalTable === 'viewed' && (request.status === 'accepted' || request.status === 'rejected')) ||
+                    (filterApprovalTable === 'non-viewed' && request.status.toLowerCase() === 'pending')) {
+
+                    const row = document.createElement('tr');
+
+                    const idCell = document.createElement('td');
+                    idCell.textContent = request.requestId;
+                    row.appendChild(idCell);
+
+                    if (request.requestType === "newMemberRequest") {
+                        const memberCell = document.createElement('td');
+                        memberCell.textContent = `New User - ${request.userName}`;
+                        row.appendChild(memberCell);
+                    } else {
+                        const member = members.find(member => member.memberId === request.memberId);
+                        const memberCell = document.createElement('td');
+                        memberCell.textContent = `${request.memberId} - ${member.userName}`;
+                        row.appendChild(memberCell);
+                    }
+
+                    const typeCell = document.createElement('td');
+                    typeCell.textContent = request.requestType;
+                    row.appendChild(typeCell);
+
+                    const actionCell = document.createElement('td');
+                    const viewButton = document.createElement('button');
+                    viewButton.textContent = 'View';
+                    viewButton.id = "viewButton";
+                    viewButton.addEventListener('click', () => openModal(request));
+                    actionCell.appendChild(viewButton);
+                    row.appendChild(actionCell);
+
+                    tbody.appendChild(row);
+                }
+            });
+        };
+
+
+        function openModal(request) {
+            currentRequest = request;
+            requestDetailsDiv.innerHTML = '';
+
+            const table = document.createElement('table');
+            table.style.width = '90%';
+            table.style.textAlign = 'center';
+            table.style.borderCollapse = 'collapse';
+
+            Object.keys(request).forEach((key) => {
+                const value = request[key];
+
+                // Skip only null and 0 values but still process the other fields
+                if (value === null || value === 0 || value === "") {
+                    return; // Skip this field only, but allow other fields to display
+                }
+
+                const row = document.createElement('tr');
+
+                const keyCell = document.createElement('th');
+                keyCell.textContent = capitalizeFirstLetter(key);
+                keyCell.style.border = '1px solid #ddd';
+                keyCell.style.padding = '8px';
+
+                keyCell.style.backgroundColor = '#f2f2f2';
+
+                const valueCell = document.createElement('td');
+                valueCell.textContent = JSON.stringify(value, null, 2).replace(/^"|"$/g, '');
+                valueCell.style.border = '1px solid #ddd';
+                valueCell.style.padding = '8px';
+
+                row.appendChild(keyCell);
+                row.appendChild(valueCell);
+                table.appendChild(row);
+            });
+
+            requestDetailsDiv.appendChild(table);
+            if (request.status === "rejected" || request.status === "accepted") {
+                document.getElementById("acceptBtn").style.display = "none";
+                document.getElementById("rejectBtn").style.display = "none";
+            }
+            viewModal.style.display = 'block';
+        }
+
+
+
+        const accessedDate = new Date();
+
+        document.getElementById('acceptBtn').addEventListener('click', async () => {
+            if (currentRequest) {
+                switch (currentRequest.requestType) {
+                    case 'payment':
+                        await handlePaymentRequest(currentRequest);
+                        break;
+                    case 'leaveProgram':
+                        await handleProgramLeaveRequest(currentRequest);
+                        break;
+                    case 'programAddon':
+                        await handleProgramAddonRequest(currentRequest);
+                        break;
+                    case 'changeMemberInfo':
+                        await handleChangeMemberInfoRequest(currentRequest);
+                        break;
+                    case 'newMemberRequest':
+                        await handleNewMemberRequest(currentRequest);
+                        break;
+                    default:
+                        console.log('Other request type handling not implemented');
+                }
+                await updateRequestStatus(currentRequest, 'accepted');
+                viewModal.style.display = 'none';
+            }
+            await fetchData();
+             location.reload();
+        });
+
+        async function handleProgramLeaveRequest(request) {
+
+            let findedProgram = enrolledPrograms.find(program => program.enrollId === request.programId);
+            let findedActivityId = findedProgram.programId;
+
+
+            let response = await deleteApi(enrolledProgramsUrl, request.programId);
+
+            if (response.ok) {
+                const newAlert = {
+                    AlertId: generateID("AT", lastIds.alertId),
+                    AlertType: "leaveProgramRequestMessage",
+                    Amount: 0,
+                    ProgramId: findedActivityId,
+                    DueDate: null,
+                    AccessedDate: accessedDate,
+                    MemberId: request.memberId,
+                    Action: true,
+                    Status: true
+                }
+
+                const alertAddresponse = await postApi(addRequestAlert, newAlert);
+
+                if (alertAddresponse.ok) {
+                    lastIds.alertId++;
+                    await updateLastIds(lastIds);
+                    alert("Program leave Request accepted");
+                }
+            }
+
+        }
+
+        async function handleNewMemberRequest(request) {
+            console.log(request)
+            let newMemberId = generateID("M", lastIds.memberId);
+
+            const newMember = {
+                    memberId:newMemberId,
+                    firstName: request.firstName,
+                    lastName: request.lastName,
+                    userName: request.userName,
+                    password: request.password,
+                    nic: request.nic,
+                    phone: request.phone,
+                    doB: request.dob,
+                    gender: request.gender,
+                    address:  request.address,
+                    emergencyContactName: request.emergencyContactName,
+                    emergencyContactNumber: request.emergencyContactNumber,
+                    userRoll: "member",
+                };
+
+            const formData = new FormData();
+            formData.append("MemberId", newMemberId);
+            formData.append("FirstName", request.firstName);
+            formData.append("LastName", request.lastName);
+            formData.append("UserName", request.userName);
+            formData.append("Password", request.password);
+            formData.append("NIC", request.nic);
+            formData.append("Phone", request.phone);
+            formData.append("DoB", request.dob);
+            formData.append("Gender", request.gender);
+            formData.append("Address", request.address);
+            formData.append("EmergencyContactName", request.emergencyContactName);
+            formData.append("EmergencyContactNumber", request.emergencyContactNumber);
+            formData.append("UserRoll", "member");
+
+           
+
+            // Send formData without ImageFile if no file is selected
+
+            console.log("paiddate", request.paidDate)
+            const newPayment = {
+                PaymentId: generateID("P", lastIds.paymentId),
+                MemberId: newMemberId,
+                PaymentType: "Initial",
+                Amount: 2500,
+                PaymentMethod: "Bank",
+                PaidDate: request.paidDate,
+                DueDate: null,
+            };
+            let addMemberResponse = await postApi("https://localhost:7256/api/Member/request-member", newMember);
+            if (addMemberResponse.ok) {
+                let addPaymentResponse = await postApi(paymentsUrl, newPayment);
+                if (addMemberResponse.ok && addPaymentResponse.ok) {
+                    lastIds.paymentId++;
+                    lastIds.memberId++;
+                    updateLastIds(lastIds);
+                    alert("New Member Request accepted and Member created Scuccessfully")
+                }
+            }
+
+        }
+
+        async function handleProgramAddonRequest(request) {
+            const newEnroll = {
+                EnrollId: generateID("E", lastIds.enrollId),
+                ProgramId: request.programId,
+                MemberId: request.memberId
+            }
+            const newAlert = {
+                AlertId: generateID("AT", lastIds.alertId),
+                AlertType: "programAddonRequestMessage",
+                Amount: 0,
+                programId: request.programId,
+                DueDate: null,
+                MemberId: request.memberId,
+                AccessedDate: accessedDate,
+                Action: true,
+                Status: true
+            }
+            const newPayment = {
+                PaymentId: generateID("P", lastIds.paymentId),
+                MemberId: request.memberId,
+                PaymentType: "ProgramAddon",
+                Amount: request.amount,
+                PaidDate: request.paidDate,
+                DueDate: null,
+                PaymentMethod: "Bank"
+            };
+            const programAddResponse = await postApi(enrolledProgramsUrl, newEnroll);
+            const alertAddresponse = await postApi(addRequestAlert, newAlert);
+            const paymentAddresponse = await postApi(paymentsUrl, newPayment);
+
+            if (programAddResponse.ok && paymentAddresponse) {
+                lastIds.enrollId++;
+                lastIds.alertId++;
+                lastIds.paymentId++;
+                updateLastIds(lastIds);
+                // request.Status="accepted"
+                // const requesUpdateResponse = await putApi(approvalRequestsUrl,request.id,request);
+                alert("Program Enrolled Request accepted and enrolled");
+            }
+        }
+
+        async function handleChangeMemberInfoRequest(request) {
+            const findedMember = members.find(member => member.memberId === request.memberId);
+
+            findedMember.FirstName = request.firstName;
+            findedMember.LastName = request.lastName;
+            findedMember.Phone = request.phone;
+            findedMember.Address = request.address;
+            findedMember.NIC = request.nic;
+            findedMember.DoB = request.doB;
+            findedMember.EmergencyContactNumber = request.emergencyContactNumber;
+            findedMember.EmergencyContactNumber = request.emergencyContactNumber;
+
+            const newAlert = {
+                AlertId: generateID("AT", lastIds.alertId),
+                AlertType: "memberInfoRequestMessage",
+                Amount: 0,
+                programId: null,
+                DueDate: null,
+                MemberId: request.memberId,
+                AccessedDate: accessedDate,
+                Action: true,
+                Status: true
+            }
+
+            const memberChangeResponse = await putApi(membersUrl, request.memberId, findedMember);
+            const alertAddresponse = await postApi(addRequestAlert, newAlert);
+
+            if (alertAddresponse.ok) {
+                lastIds.alertId++;
+                updateLastIds(lastIds);
+                // request.Status="accepted"
+                // const requesUpdateResponse = await putApi(approvalRequestsUrl,request.id,request);
+                alert("Member Information Request accepted and Changed");
+            }
+        }
+
+        async function handlePaymentRequest(request) {
+            const memberAlerts = alerts.filter(alert => alert.memberId === request.memberId && alert.status === true);
+            console.log(memberAlerts)
+
+            memberAlerts.sort((a, b) => {
+                const alertIdA = parseInt(a.alertId.substring(1), 10);
+                const alertIdB = parseInt(b.alertId.substring(1), 10);
+                return alertIdB - alertIdA;
+            });
+
+            const lastOverdueAlert = memberAlerts.find(alert => alert.alertType === 'overdue');
+            const lastRenewalAlert = memberAlerts.find(alert => alert.alertType === 'renewal');
+            console.log(lastOverdueAlert)
+            console.log(lastRenewalAlert)
+
+            if (lastOverdueAlert) {
+                lastOverdueAlert.status = false;
+            }
+
+            if (lastRenewalAlert) {
+                lastRenewalAlert.status = false;
+            }
+
+            const newPayment = {
+                PaymentId: generateID("P", lastIds.paymentId),
+                MemberID: request.memberId,
+                PaymentType: request.paymentType,
+                Amount: request.amount,
+                PaidDate: request.paidDate,
+                DueDate: request.dueDate,
+                PaymentMethod: "Bank"
+            };
+
+            const addPaymentResponse = await postApi(paymentsUrl, newPayment);
+
+            if (addPaymentResponse.ok) {
+                lastIds.paymentId++;
+                await updateLastIds(lastIds);
+                if (lastOverdueAlert) {
+                    await putApi(alertsUrl, lastOverdueAlert.alertId, lastOverdueAlert);
+                }
+                if (lastRenewalAlert) {
+                    await putApi(alertsUrl, lastRenewalAlert.alertId, lastRenewalAlert);
+                }
+                // request.Status="accepted"
+                // const requesUpdateResponse = await putApi(approvalRequestsUrl,request.id,request);
+                alert("Payment request was accepted and added successfully!");
+
+            }
+
+            const newAlert = {
+                AlertId: generateID("AT", lastIds.alertId),
+                AlertType: "paymentrequestMessage",
+                Amount: request.amount,
+                ProgramId: null,
+                DueDate: request.dueDate,
+                MemberId: request.memberId,
+                AccessedDate: accessedDate,
+                Action: true,
+                Status: true
+            }
+            const response = await postApi(addRequestAlert, newAlert);
+            lastIds.alertId++;
+            await updateLastIds(lastIds);
+
+        };
+
+
+
+
+        document.getElementById('rejectBtn').addEventListener('click', async () => {
+            if (currentRequest) {
+                switch (currentRequest.requestType) {
+                    case 'payment':
+                        const paymentAlert = {
+                            AlertId: generateID("AT", lastIds.alertId),
+                            AlertType: "paymentrequestMessage",
+                            Amount: currentRequest.amount,
+                            ProgramId: null,
+                            DueDate: currentRequest.dueDate,
+                            MemberId: currentRequest.memberId,
+                            AccessedDate: accessedDate,
+                            Action: false,
+                            Status: true
+                        }
+                        const paymentResponse = await postApi(addRequestAlert, paymentAlert);
+                        lastIds.alertId++;
+                        await updateLastIds(lastIds);
+                        if (paymentResponse.ok) {
+                            // currentRequest.Status="ceclined"
+                            // const requesUpdateResponse = await putApi(approvalRequestsUrl,currentRequest.id,currentRequest);
+                            alert("Payment Requset Declined");
+                        }
+                        break;
+
+
+                    case 'leaveProgram':
+                        let findedProgram = enrolledPrograms.find(program => program.enrollId === currentRequest.programId);
+                        console.log("qwertyui" + findedProgram)
+                        let findedActivityId = findedProgram.programId;
+                        console.log("sfvdsfvds" + findedProgram.programId)
+                        const leaveProgramAlert = {
+                            AlertId: generateID("AT", lastIds.alertId),
+                            AlertType: "leaveProgramRequestMessage",
+                            Amount: 0,
+                            ProgramId: findedActivityId,
+                            DueDate: null,
+                            MemberId: currentRequest.memberId,
+                            AccessedDate: accessedDate,
+                            Action: false,
+                            Status: true
+                        }
+                        const leaveProgramResponse = await postApi(addRequestAlert, leaveProgramAlert);
+                        lastIds.alertId++;
+                        await updateLastIds(lastIds);
+                        if (leaveProgramResponse.ok) {
+                            // currentRequest.Status="declined"
+                            // const requesUpdateResponse = await putApi(approvalRequestsUrl,currentRequest.id,currentRequest);
+                            alert("leave Program Requset Declined");
+                        }
+                        break;
+
+
+                    case 'programAddon':
+                        const programAddonAlert = {
+                            AlertId: generateID("AT", lastIds.alertId),
+                            AlertType: "programAddonRequestMessage",
+                            Amount: currentRequest.amount,
+                            ProgramId: currentRequest.programId,
+                            DueDate: null,
+                            MemberId: currentRequest.memberId,
+                            AccessedDate: accessedDate,
+                            Action: false,
+                            Status: true
+                        }
+                        const programAddonResponse = await postApi(addRequestAlert, programAddonAlert);
+                        lastIds.alertId++;
+                        await updateLastIds(lastIds);
+                        if (programAddonResponse.ok) {
+                            // currentRequest.Status="ceclined"
+                            // const requesUpdateResponse = await putApi(approvalRequestsUrl,currentRequest.id,currentRequest);
+                            alert("Program Enroll Requset Declined");
+                        }
+                        break;
+
+                    case 'changeMemberInfo':
+                        const changeMemberInfoAlert = {
+                            AlertId: generateID("AT", lastIds.alertId),
+                            AlertType: "memberInfoRequestMessage",
+                            Amount: 0,
+                            ProgramId: null,
+                            DueDate: null,
+                            MemberId: currentRequest.memberId,
+                            AccessedDate: accessedDate,
+                            Action: false,
+                            Status: true
+                        }
+                        const changeMemberInfoResponse = await postApi(addRequestAlert, changeMemberInfoAlert);
+                        lastIds.alertId++;
+                        await updateLastIds(lastIds);
+                        if (changeMemberInfoResponse.ok) {
+                            // currentRequest.Status="ceclined"
+                            // const requesUpdateResponse = await putApi(approvalRequestsUrl,currentRequest.id,currentRequest);
+                            alert("Program Enroll Requset Declined");
+                        }
+                        break;
+
+                    default:
+                        console.log('Other request type handling not implemented');
+                        break;
+                }
+                await updateRequestStatus(currentRequest, 'rejected');
+                viewModal.style.display = 'none';
+            }
+            location.reload();
+        });
+
+        document.getElementById('closeModal').addEventListener('click', () => {
+            viewModal.style.display = 'none';
+        });
+
+        async function updateRequestStatus(request, newStatus) {
+            try {
+                const updatedRequest = { ...request, status: newStatus };
+                console.log('Payload being sent:', updatedRequest);
+
+                const updateRequestRes = await putApi(RequestsUrl, request.requestId, updatedRequest)
+            } catch (error) {
+                console.error('Error updating request status:', error);
+            }
+        };
+
+        async function postApi(addURL, payload) {
+            const response = await fetch(addURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            return response;
+        }
+
+        async function addMember(addURL, formData) {
+            const response = await fetch(addURL, {
+                method: "POST",
+                body: formData
+            });
+            return response;
+        }
+
+        async function deleteApi(deleteURL, id) {
+            const response = await fetch(`${deleteURL}/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            return response;
+        }
+
+        async function updateLastIds(data) {
+            const response = await fetch(lastIdsUrl, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }
+
+        async function putApi(url, id, arr) {
+            const response = await fetch(`${url}/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(arr),
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error(`Error: ${response.status} - ${errorText}`);
+                throw new Error(`Request failed with status ${response.status}`);
+            }
+
+            return response.json();
+        }
+
+    });
+
+
+
+</script>
