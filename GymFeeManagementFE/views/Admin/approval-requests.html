@@ -1,0 +1,329 @@
+<style>
+    #dashboardCard {
+        margin-top: 40px;
+        background-color: #ecf0f1;
+        max-height: 100vh;
+        height: 650px;
+        overflow-y: hidden;
+        /* padding: 20px; */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .grid-container {
+        display: flex;
+        justify-content: space-evenly;
+        padding: 10px 20px;
+        margin-top: 10px;
+    }
+
+    .graph-img {
+        width: 30%;
+        margin-top: -50px;
+    }
+
+    .dasBoardbadge {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 250px;
+        height: 250px;
+        background: white;
+        color: black;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 24px;
+        border: 20px solid #005f73;
+    }
+
+    .notification-container {
+        padding: 0px 20px;
+        max-height: 400px;
+        height: 300px;
+        overflow-y: auto;
+    }
+
+    #income {
+        color: green;
+        border-color: green;
+    }
+
+    #overdue {
+        color: red;
+        border-color: red;
+    }
+
+    #adminNotificationTable {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+    }
+
+    #adminNotificationTable th,
+    #notification-table td {
+        padding: 10px;
+        text-align: left;
+    }
+
+    #adminNotificationTable th {
+        background-color: #aba5a5;
+        color: red;
+        font-size: 20px;
+    }
+
+    #adminNotificationTable thead {
+        position: sticky;
+        top: 0;
+    }
+
+    #adminNotificationTable td {
+        border-bottom: 1px solid black;
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    #currentDate {
+        color: black;
+        position: relative;
+        left: 650px;
+    }
+
+
+
+    /* Label styling */
+    #dateForm label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* Styling for select and input fields */
+    #dateForm select,
+    #dateForm input[type="number"] {
+
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+        color: #555;
+    }
+
+    /* Button styling */
+    /* #dateForm button {
+        padding: 10px;
+        margin: 5px 1%;
+        font-size: 1em;
+        color: #fff;
+        background-color: #4CAF50;
+      
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    } */
+
+    #dateForm button:hover {
+        background-color: #45a049;
+    }
+
+    /* Specific styling for different buttons if desired */
+    #monthlyPayBtn {
+        background-color: #2196F3;
+        margin-bottom: 10px;
+        /* Blue */
+    }
+
+    #monthlyPayBtn:hover {
+        background-color: #1e88e5;
+    }
+
+    #allPayBtn {
+        background-color: #ff5722;
+        color: white;
+        width: 200px;
+        /* Orange */
+    }
+
+    #allPayBtn:hover {
+        background-color: #e64a19;
+        
+    }
+
+    button {
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    #paymentContent {
+        padding: 30px;
+    }
+</style>
+
+<section id="content">
+    <h2 id="contentTitle">Dash Board</h2>
+    <div id="dashboardCard">
+        <div class="row">
+            <div class="col-2" id="paymentContent">
+                <!-- <form id="dateForm">
+                    <div class="d-flex justify-content-around" style="width: 250px;">
+                        <div class="formGroup">
+                            <label for="month">Select Month:</label>
+                            <select id="month" name="month">
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+
+                        <div class="formGroup">
+                            <label for="year">Select Year:</label>
+                            <select id="year" name="year" required></select>
+                        </div>
+
+
+                    </div>
+
+                </form> -->
+                <!-- <button type="button" id="monthlyPayBtn">Display Monthly Financials</button> -->
+                <button type="button" id="allPayBtn">Display All Financials</button>
+            </div>
+
+            <div class="col-10">
+                <div class="grid-container">
+                    <div class="dasBoardbadge" id="income"></div>
+                    <div class="dasBoardbadge" id="overdue"></div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="notification-container">
+            <table border="1" id="adminNotificationTable">
+                <thead>
+                    <tr>
+                        <th colspan="3">Overdue Notifications <span id="currentDate"></span></th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const membersUrl = "https://localhost:7256/api/Member";
+        const paymentsUrl = "https://localhost:7256/api/Payment";
+        const lastIdsUrl = "https://localhost:7256/api/LastId";
+        const alertsUrl = "https://localhost:7256/api/Alert";
+
+        let members = [];
+        let payments = [];
+        let lastIds = [];
+        let alerts = [];
+        let totalIncome = 0;
+        let totalOverdue = 0;
+
+        async function fetchData() {
+            const paymentResponse = await fetch(paymentsUrl);
+            const paymentsWhole = await paymentResponse.json();
+            payments = paymentsWhole.result;
+
+            const alertResponse = await fetch(alertsUrl);
+            alerts = await alertResponse.json();
+
+            const memberResponse = await fetch(membersUrl);
+            members = await memberResponse.json();
+
+            const lastidsResponse = await fetch(lastIdsUrl);
+            lastIds = await lastidsResponse.json();
+        }
+
+        await fetchData();
+   
+
+        let currentDate = document.getElementById("currentDate");
+        time = new Date();
+
+        currentDate.innerHTML = `Current Date: ${time.toLocaleDateString('en-GB')}`;
+
+    
+
+        document.getElementById("allPayBtn").addEventListener("click", () => {
+            totalIncome = 0;
+            totalOverdue = 0;
+            displayIncomeOverdue(true);
+        })
+
+        displayIncomeOverdue();
+        displayNotifications();
+        function displayIncomeOverdue(showAll = false) {
+      
+
+            const currentMonth = new Date().getMonth() + 1;  
+            const currentYear = new Date().getFullYear();
+
+            payments.forEach(payment => {
+                const paymentDate = new Date(payment.paidDate);
+                if (showAll || (paymentDate.getMonth() + 1 === currentMonth && paymentDate.getFullYear() === currentYear)) {
+                    totalIncome += payment.amount;
+                }
+            });
+
+            alerts.forEach(alert => {
+                const dueDate = new Date(alert.dueDate);
+                if (alert.alertType === "overdue" && alert.status === true) {
+                    if (showAll || (dueDate.getMonth() + 1 === currentMonth && dueDate.getFullYear() === currentYear)) {
+                        totalOverdue += alert.amount;
+                    }
+                }
+            });
+
+            const overdueDiv = document.getElementById("overdue");
+            const incomeDiv = document.getElementById("income");
+
+            incomeDiv.innerHTML = `Total<br> Revenue<br><br>Rs${totalIncome.toFixed(2)}`;
+            overdueDiv.innerHTML = `Total<br> Overdue<br><br>Rs${totalOverdue.toFixed(2)}`;
+        }
+
+
+        function displayNotifications() {
+            const notificationTable = document.getElementById("adminNotificationTable");
+            alerts.forEach(alert => {
+                if (alert.alertType === "overdue" && alert.status === true) {
+                    const row = document.createElement("tr");
+                    const overdueCell = document.createElement("td");
+                    overdueCell.textContent = `Member ID ${alert.memberId
+                        } has overdue payment - Rs${alert.amount} | Due Date - ${alert.dueDate}`;
+                    row.appendChild(overdueCell);
+                    notificationTable.appendChild(row);
+                }
+            });
+
+            if (totalOverdue === 0) {
+                const noNotificationRow = document.createElement("tr");
+                const noNotificationCell = document.createElement("td");
+                noNotificationCell.textContent = "You don't have any overdue notifications.";
+                noNotificationCell.setAttribute("colspan", "3");
+                noNotificationRow.appendChild(noNotificationCell);
+                notificationTable.appendChild(noNotificationRow);
+            }
+        };
+
+    })
+
+</script>
