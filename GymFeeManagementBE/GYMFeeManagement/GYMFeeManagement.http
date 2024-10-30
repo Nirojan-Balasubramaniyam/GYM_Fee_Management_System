@@ -1,0 +1,6 @@
+@GYMFeeManagement_HostAddress = http://localhost:5053
+
+GET {{GYMFeeManagement_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
