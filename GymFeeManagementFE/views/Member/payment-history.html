@@ -1,0 +1,147 @@
+<style>
+    #paymentHistoryTable,
+    .payment-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .payment-table-header {
+        background-color: #1abc9c;
+        color: white;
+        padding: 10px;
+        text-align: left;
+    }
+
+    .payment-table-row td,
+    .notification-table-row td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        color: #34495e;
+    }
+
+    .payment-table-row:hover {
+        background-color: #f1f1f1;
+    }
+
+    .payment-history-card {
+        max-height: 480px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+    }
+
+    .payment-table td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ccc;
+    }
+    #paymentHistoryTable{
+        overflow-y: auto;
+    }
+
+    #paymentHistoryTable th {
+        position: sticky;
+        top: 0;
+        text-align: center;
+    }
+
+    /* Optional: Add hover effect for rows */
+    .payment-table-row:hover {
+        background-color: #f1f1f1;
+    }
+
+    #paymentHistoryCard {
+        margin-top: 0px;
+        background-color: #ecf0f1;
+        max-height: 100vh;
+        height: 500px;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        padding: 10px;
+        border-radius: 10px;
+        /* width: 100%; */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<section id="content">
+    <h2 id="contentTitle">Payment History</h2>
+    <div id="paymentHistoryCard">
+        <div class="row">
+            <div class="col-12">
+                <div class="payment-history-card">
+                    <table id="paymentHistoryTable" class="payment-table">
+                        <thead>
+                            <tr>
+                                <th class="payment-table-header">Payment Type</th>
+                                <th class="payment-table-header">Amount (LKR)</th>
+                                <th class="payment-table-header">Paid Date</th>
+                                <th class="payment-table-header">Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+        const membersUrl = "https://localhost:7256/api/Member";
+        const paymentsUrl = "https://localhost:7256/api/Payment";
+      
+
+        let members = [];
+        let payments = [];
+        
+        async function fetchData() {
+
+            const paymentResponse = await fetch(paymentsUrl);
+            const paymentsWhole = await paymentResponse.json();
+            payments = paymentsWhole.result;
+
+            const memberResponse = await fetch(membersUrl);
+            members = await memberResponse.json();
+        }
+
+        await fetchData();
+
+        displayPaymentHistory();
+
+        function displayPaymentHistory() {
+            const paymentTableBody = document.getElementById('paymentTableBody');
+            paymentTableBody.innerHTML = '';
+
+            const memberPayments = payments.filter(payment => payment.memberId === loggedInUser.memberId);
+            if (memberPayments.length === 0) {
+                const noPaymentRow = document.createElement('tr');
+                const noPaymentCell = document.createElement('td');
+                noPaymentCell.setAttribute('colspan', 4);
+                noPaymentCell.textContent = "No payment history available.";
+                noPaymentRow.appendChild(noPaymentCell);
+                paymentTableBody.appendChild(noPaymentRow);
+                return;
+            }
+
+            memberPayments.forEach(payment => {
+                const row = document.createElement('tr');
+                row.classList.add('payment-table-row');
+                let formatedPaidDate = new Date(payment.paidDate).toLocaleDateString('en-US')
+                let formatedDueDate = new Date(payment.dueDate).toLocaleDateString('en-US')
+
+                row.innerHTML = `
+                    <td>${payment.paymentType}</td>
+                    <td>${payment.amount}</td>
+                    <td>${formatedPaidDate}</td>
+                    <td>${payment.dueDate ? formatedDueDate : 'N/A'}</td>
+                `;
+                paymentTableBody.appendChild(row);
+            });
+        }
+    })
+
+</script>

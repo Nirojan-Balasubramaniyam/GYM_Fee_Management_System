@@ -1,0 +1,597 @@
+<style>
+    #enrollment-container {
+        width: 100%;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f4f4f4;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #trainingProgramSelection {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    #cardioSection,
+    #weightTrainingSection {
+        width: 40%;
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #trainingProgramSelection h3 {
+        text-align: center;
+    }
+
+    #enrollment-container .form-group {
+        margin-bottom: 15px;
+    }
+
+    #addProgramsBtn {
+        display: block;
+        margin: 0 auto;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    #addProgramsBtn :hover {
+        background-color: #218838;
+    }
+
+    #cardioPrograms,
+    #weightPrograms {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding-top: 20px;
+    }
+
+    #programEnrollPaymentForm {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding-top: 20px;
+    }
+
+    #memberSelect,
+    #monthsSelect {
+        width: 200px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 1px solid green;
+    }
+
+    .selection-form-group {
+        display: flex;
+        justify-content: space-around;
+        width: 500px;
+        margin-bottom: 20px;
+    }
+
+    #monthsSelect {
+        position: relative;
+    }
+
+    #enrollProgramCard {
+        max-height: 100vh;
+        height: 650px;
+        overflow-y: auto;
+        margin-top: 50px;
+        background-color: #ecf0f1;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .program-checkbox {
+        margin: 0px 20px 0px 100px;
+        transform: scale(1.5);
+    }
+
+    #trainingProgramSelection h3 {
+        color: #218838;
+        font-weight: 800;
+    }
+
+    .program-checkbox-label {
+        font-weight: 530;
+    }
+</style>
+
+<section id="content">
+    <h2 id="contentTitle">Enroll Programs</h2>
+    <div id="dynamicContent">
+        <div id="enrollProgramCard">
+
+
+            <div class="selection-form-group">
+                <div>
+                    <select id="memberSelect" class="form-input">
+                    </select>
+                </div>
+
+                <div>
+                    <select id="monthsSelect" class="form-input">
+                    </select>
+                </div>
+            </div>
+
+            <div id="trainingProgramSelection">
+                <div id="cardioSection">
+                    <h3>Cardio Programs</h3>
+                    <div id="cardioPrograms">
+                    </div>
+                </div>
+
+                <div id="weightTrainingSection">
+                    <h3>Weight Training Programs</h3>
+                    <div id="weightPrograms">
+                    </div>
+                </div>
+            </div>
+
+            <div id="programEnrollPaymentForm" class="form-group">
+                <div>
+                    <p><span id="totalPayment"></span></p>
+                    <p><span id="additionalPayment"></span></p>
+                </div>
+                <label>Select payment method:</label>
+                <label><input type="radio" name="paymentMethod" value="Cash" checked> Cash</label>
+                <label><input type="radio" name="paymentMethod" value="Card"> Card</label>
+                <button id="addProgramsBtn">Add Programs</button>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+        const membersUrl = "https://localhost:7256/api/Member";
+        const trainingProgramsUrl = "https://localhost:7256/api/TrainigProgram";
+        const enrolledProgramsUrl = "https://localhost:7256/api/EnrollProgram";
+        const paymentsUrl = "https://localhost:7256/api/Payment";
+        const lastIdsUrl = "https://localhost:7256/api/LastId";
+
+        let members = [];
+        let trainingPrograms = [];
+        let enrolledPrograms = [];
+        let payments = [];
+        let selectedActivities = [];
+        let newlySelectedActivities = [];
+        let originalEnrolledPrograms = [];
+        let lastIds = [];
+        let enrollMonths = [{ period: 1, discount: 0 }, { period: 3, discount: 10 }, { period: 6, discount: 15 }, { period: 12, discount: 25 }];
+
+        async function fetchData() {
+            const paymentResponse = await fetch(paymentsUrl);
+            const paymentsWhole = await paymentResponse.json();
+            payments = paymentsWhole.result;
+
+            const memberResponse = await fetch(membersUrl);
+            members = await memberResponse.json();
+
+            const lastidsResponse = await fetch(lastIdsUrl);
+            lastIds = await lastidsResponse.json();
+
+            const activitiesResponse = await fetch(trainingProgramsUrl);
+            trainingPrograms = await activitiesResponse.json();
+            console.log(trainingPrograms)
+
+            const enrolledProgramsResponse = await fetch(enrolledProgramsUrl);
+            enrolledPrograms = await enrolledProgramsResponse.json();
+        }
+
+        await fetchData();
+
+        const additionalPaymentElement = document.getElementById('additionalPayment');
+        const totalPaymentElement = document.getElementById('totalPayment');
+        const monthSelect = document.getElementById('monthsSelect');
+        const memberSelect = document.getElementById('memberSelect');
+
+        populateDropdowns();
+        populateTrainingPrograms();
+        function populateDropdowns() {
+            // Populate Member dropdown
+            memberSelect.innerHTML = '';
+            let defaultMemberOption = document.createElement('option');
+            defaultMemberOption.text = `Select Member`;
+            defaultMemberOption.value = "0";
+            memberSelect.appendChild(defaultMemberOption);
+
+            members.forEach(member => {
+                const option = document.createElement('option');
+                option.value = member.memberId;
+                option.text = `${member.memberId} - ${member.userName}`;
+                memberSelect.appendChild(option);
+            });
+
+            // Populate Month dropdown (preserve previously selected month)
+            const previousSelectedMonth = monthSelect.value;
+            monthSelect.innerHTML = '';
+            let defaultMonthOption = document.createElement('option');
+            defaultMonthOption.text = "Select Month";
+            defaultMonthOption.value = 1;
+            monthSelect.appendChild(defaultMonthOption);
+
+            enrollMonths.forEach(month => {
+                const option = document.createElement('option');
+                option.value = month.period;
+                option.text = `${month.period} - Discount ${month.discount} %`;
+                monthSelect.appendChild(option);
+            });
+
+            // Set previously selected month value
+            if (previousSelectedMonth) {
+                monthSelect.value = previousSelectedMonth;
+            }
+
+            memberSelect.removeEventListener('change', handleMemberSelection); // Remove existing listener
+            memberSelect.addEventListener('change', handleMemberSelection);    // Reattach event listener
+
+            monthSelect.removeEventListener('change', handleMonthSelection);   // Remove existing listener
+            monthSelect.addEventListener('change', handleMonthSelection);      // Reattach event listener
+        }
+
+        function handleMemberSelection() {
+            const selectedMemberId = document.getElementById('memberSelect').value;
+            const selectedMonths = Number(document.getElementById('monthsSelect').value);
+
+            
+
+            if (!selectedMemberId) return;
+
+            originalEnrolledPrograms = enrolledPrograms.filter(enroll => enroll.memberId === selectedMemberId);
+
+            // Resetting only if a new member is selected
+            selectedActivities = [];
+
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            originalEnrolledPrograms.forEach(enrolled => {
+                const checkbox = document.querySelector(`input[value="${enrolled.programId}"]`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                    selectedActivities.push(parseInt(checkbox.dataset.cost, 10));
+                }
+            });
+
+            const addProgramsBtn = document.getElementById('addProgramsBtn');
+            if (originalEnrolledPrograms.length > 0) {
+                addProgramsBtn.textContent = 'Update Program';
+                monthSelect.disabled = true;
+                additionalPaymentElement.innerHTML="";
+                totalPaymentElement.innerHTML="";
+            } else {
+                addProgramsBtn.textContent = 'Add Program';
+                monthSelect.disabled = false;
+                additionalPaymentElement.innerHTML="";
+                totalPaymentElement.innerHTML="";
+            }
+
+            calculateTotalCost(selectedMonths);
+        }
+
+        function handleMonthSelection() {
+            const selectedMonths = Number(document.getElementById('monthsSelect').value);
+            calculateTotalCost(selectedMonths); // Recalculate cost when the month changes
+        }
+
+        function populateTrainingPrograms() {
+            const cardioSection = document.getElementById('cardioPrograms');
+            const weightSection = document.getElementById('weightPrograms');
+
+            cardioSection.innerHTML = '';
+            weightSection.innerHTML = '';
+
+            trainingPrograms.forEach(activity => {
+                const label = document.createElement('label');
+                label.innerHTML = `${activity.programName} - Rs ${activity.cost}`;
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = activity.programId;
+                checkbox.dataset.cost = activity.cost;
+
+                label.classList.add('program-checkbox-label');
+                checkbox.classList.add('program-checkbox');
+
+                checkbox.addEventListener('change', handleCheckboxChange);
+
+                label.prepend(checkbox);
+
+                if (activity.typeId === 'PT001') {
+                    cardioSection.appendChild(label);
+                } else if (activity.typeId === 'PT002') {
+                    weightSection.appendChild(label);
+                }
+            });
+        }
+
+        function handleCheckboxChange(event) {
+            const activityCost = parseInt(event.target.dataset.cost, 10);
+            const activityId = event.target.value;
+
+            if (event.target.checked) {
+                if (!originalEnrolledPrograms.some(enrolled => enrolled.programId == activityId)) {
+                    newlySelectedActivities.push(activityCost);
+                }
+                selectedActivities.push(activityCost);
+            } else {
+                selectedActivities = selectedActivities.filter(cost => cost !== activityCost);
+                newlySelectedActivities = newlySelectedActivities.filter(cost => cost !== activityCost);
+            }
+
+            handleMonthSelection();
+        }
+
+
+
+        function calculateProratedCost(newlySelectedActivities, selectedMemberId) {
+            const memberPayments = payments.filter(payment => payment.memberId === selectedMemberId && payment.paymentType !== 'ProgramAddon' && payment.paymentType !== 'Initial');
+
+            if (memberPayments.length === 0) {
+                return 0;
+            }
+
+            const sortedPayments = memberPayments.sort((a, b) => new Date(b.paidDate) - new Date(a.paidDate));
+            const lastPayment = sortedPayments[0];
+            const lastDueDate = lastPayment.dueDate;
+            const today = new Date();
+
+            const remainingDays = Math.ceil((new Date(lastDueDate) - today) / (1000 * 60 * 60 * 24));
+
+            if (remainingDays < 0) {
+                return -1;
+            }
+
+            const daysInCurrentMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+
+            const newlySelectedCost = newlySelectedActivities.reduce((total, cost) => {
+                const proratedCost = (cost / daysInCurrentMonth) * remainingDays;
+                return total + proratedCost;
+            }, 0);
+
+            return Math.ceil(newlySelectedCost);
+        }
+
+
+
+        function calculateTotalCost(months = 1) {
+            const selectedMemberId = document.getElementById('memberSelect').value;
+            let sortedPayments;
+            let lastPayment;
+            let lastDueDate;
+            let formatedDate;
+            let remainingDays;
+            const today = new Date();
+
+            if (!selectedMemberId) return;
+
+            let totalCost = 0;
+            let newlySelectedCost = 0;
+            let totalFinalCost = 0;
+
+            totalCost = selectedActivities.reduce((total, cost) => total + cost, 0);
+
+            newlySelectedCost = calculateProratedCost(newlySelectedActivities, selectedMemberId);
+
+            if (newlySelectedCost === -1) {
+                alert("Please settle your previous payment.");
+                return;
+            }
+
+            totalFinalCost = calculateDiscountedAmount(totalCost, months);
+
+            const memberPayments = payments.filter(payment => payment.memberId === selectedMemberId && payment.paymentType !== 'ProgramAddon' && payment.paymentType !== 'Initial');
+            console.log(memberPayments)
+
+            if (memberPayments.length !==0) {
+                 sortedPayments = memberPayments.sort((a, b) => new Date(b.paidDate) - new Date(a.paidDate));
+                 lastPayment = sortedPayments[0];
+                 lastDueDate = lastPayment.dueDate;
+                 formatedDate = new Date((lastPayment.dueDate)).toLocaleDateString('en-GB');
+
+                 remainingDays = Math.ceil((new Date(lastDueDate) - today) / (1000 * 60 * 60 * 24));
+
+            }
+
+
+
+
+
+            document.getElementById('totalPayment').textContent = totalCost !== 0 ? `Total Monthly Payment: Rs ${totalFinalCost}` : "Total Payment: Rs 0";
+            if (originalEnrolledPrograms.length != 0) {
+                additionalPaymentElement.innerHTML = newlySelectedActivities.length > 0 ?
+                    `Payment for Newly Enrolled: Rs ${newlySelectedCost} <br> <i>This cost for ${selectedMemberId}'s remaining: ${remainingDays} days for meet next duedate: ${formatedDate}</i>` : '';
+            }
+
+            totalCost = "";
+            totalFinalCost = "";
+            newlySelectedCost = "";
+        }
+
+
+        document.getElementById('addProgramsBtn').addEventListener('click', async (event) => {
+            event.preventDefault();
+            const selectedMemberId = document.getElementById('memberSelect').value;
+            const selectedMonths = Number(document.getElementById('monthsSelect').value);
+
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            const totalCost = selectedActivities.reduce((total, cost) => total + cost, 0);
+
+            const newlySelectedCost = calculateProratedCost(newlySelectedActivities, selectedMemberId);
+
+            const totalFinalCost = calculateDiscountedAmount(totalCost, selectedMonths);
+            console.log("addprgrm cost", totalFinalCost)
+
+            if (!selectedMemberId || totalCost === 0) {
+                alert("Please select a member and at least one training program.");
+                return;
+            }
+
+            const checkedPrograms = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
+
+            // Delete removed programs (if any)
+            const removedPrograms = originalEnrolledPrograms.filter(enrolled => !checkedPrograms.includes(enrolled.programId));
+            if (removedPrograms.length > 0) {
+                for (const removedProgram of removedPrograms) {
+                    let deleteResponse = await deleteApi(enrolledProgramsUrl, removedProgram.enrollId);
+                }
+                alert("Programs updated successfully! Removed unselected programs.");
+            }
+            console.log("chckdP", checkedPrograms)
+
+            for (const programId of checkedPrograms) {
+                const alreadyEnrolled = originalEnrolledPrograms.find(enrolled => enrolled.programId === programId);
+                console.log(!alreadyEnrolled)
+                if (!alreadyEnrolled) {
+                    const newEnrollProgramId = generateID("E", lastIds.enrollId);
+                    console.log(programId)
+                    const activity = trainingPrograms.find(act => act.programId === programId);
+                    console.log("actvt", activity)
+                    if (activity) {
+                        const newEnrolledProgram = {
+                            enrollId: newEnrollProgramId,
+                            memberId: selectedMemberId,
+                            programId: activity.programId
+                        };
+
+                        console.log("newsss", newEnrolledProgram)
+
+                        const enroladdRes = await postApi(enrolledProgramsUrl, newEnrolledProgram);
+                        if (enroladdRes.ok) {
+                            lastIds.enrollId++;
+                        }
+                    }
+                }
+            }
+
+            const newPaymentId = generateID("P", lastIds.paymentId);
+            const paidDate = new Date();
+            const dueDate = new Date();
+
+            let paymentType = "Monthly";
+            if (selectedMonths === 1) {
+                dueDate.setDate(paidDate.getDate() + 30); // Set due date to 30 days from today
+            } else if (selectedMonths === 3) {
+                paymentType = "Quarterly";
+                dueDate.setDate(paidDate.getDate() + 90); // Set due date to 90 days (approx. 3 months)
+            } else if (selectedMonths === 6) {
+                paymentType = "Half-Yearly";
+                dueDate.setDate(paidDate.getDate() + 180); // Set due date to 180 days (approx. 6 months)
+            } else if (selectedMonths === 12) {
+                paymentType = "Annually";
+                dueDate.setDate(paidDate.getDate() + 365); // Set due date to 365 days (1 year)
+            }
+
+            const newPayment = {
+                PaymentId: newPaymentId,
+                MemberId: selectedMemberId,
+                paymentType: originalEnrolledPrograms.length != 0 ? "ProgramAddon" : paymentType,  // Use calculated payment type
+                Amount: originalEnrolledPrograms.length != 0 ? newlySelectedCost : totalFinalCost,
+                PaymentMethod: paymentMethod,
+                PaidDate: paidDate.toISOString().split('T')[0],
+                DueDate: originalEnrolledPrograms.length != 0 ? null : dueDate.toISOString().split('T')[0],
+
+            };
+
+            await postApi(paymentsUrl, newPayment);
+            alert(originalEnrolledPrograms.length != 0 ? "Programs updated successfully!" : "Programs and payment enrolled successfully!");
+            lastIds.paymentId++;
+            await updateLastIds(lastIds);
+
+            selectedActivities = [];
+            newlySelectedActivities = [];
+            document.getElementById('totalPayment').textContent = '';
+            document.getElementById('additionalPayment').textContent = '';
+            await fetchData();
+            populateDropdowns();
+            populateTrainingPrograms();
+        });
+
+        function calculateDiscountedAmount(amount, months) {
+            let finalAmount;
+
+            switch (months) {
+                case 1:
+                    finalAmount = amount;
+                    break;
+                case 3:
+                    finalAmount = (3 * amount) - (amount * 0.10);
+                    break;
+                case 6:
+                    finalAmount = (6 * amount) - (amount * 0.15);
+                    break;
+                case 12:
+                    finalAmount = (12 * amount) - (amount * 0.25);
+                    break;
+            }
+
+            console.log(finalAmount)
+            if (months === 1) {
+                return finalAmount;
+            } else {
+                return Math.ceil(finalAmount / 100) * 100;
+            }
+        }
+        async function putApi(updateURL, id, data) {
+            const response = await fetch(`${updateURL}/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }
+
+        async function postApi(addURL, payload) {
+            const response = await fetch(addURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            return response;
+        }
+
+        async function deleteApi(deleteURL, id) {
+            const response = await fetch(`${deleteURL}/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            return response;
+        }
+
+        async function updateLastIds(data) {
+            const response = await fetch(lastIdsUrl, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }
+    })
+
+
+
+</script>

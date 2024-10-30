@@ -1,0 +1,159 @@
+<style>
+    #programReportContainer {
+      max-height: 100vh;
+      height: 600px;
+      width: 90%;
+      margin: 0 auto;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  
+      overflow-y: auto;
+    }
+  
+    #programReportTitle {
+      color: #d32f2f;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+  
+    #programReportTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+  
+    #programReportTable th {
+      position: sticky;
+      top: 0;
+    }
+  
+    #programReportTable th,
+    #programReportTable td {
+      padding: 12px 15px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+  
+    .programHeader {
+      background-color: #1abc9c;
+      color: white;
+      text-align: center;
+    }
+  
+    .percentageHeader {
+      background-color: #ff9800;
+      color: white;
+      text-align: center;
+    }
+  
+    #programReportTable tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  
+    #programReportTable tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+  
+  
+    #programReportCard {
+      margin-top: 50px;
+      height: 650px;
+      background-color: #ecf0f1;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+  <section id="content">
+    <h2 id="contentTitle">Training Programs Report</h2>
+    <div id="dynamicContent">
+      <div id="programReportCard">
+        <div id="programReportContainer">
+          <table id="programReportTable">
+            <thead>
+              <tr>
+                <th class="programHeader">Training Programs</th>
+                <th class="percentageHeader">Accessing Members Count</th>
+                <th class="percentageHeader">Accessing Member Percentage</th>
+              </tr>
+            </thead>
+            <tbody> </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <script>
+  document.addEventListener("DOMContentLoaded", async () => {
+      const membersUrl = "https://localhost:7256/api/Member";
+      const trainingProgramsUrl = "https://localhost:7256/api/TrainigProgram";
+      const enrolledProgramsUrl = "https://localhost:7256/api/EnrollProgram";
+  
+      let members = [];
+      let trainingPrograms = [];
+      let enrolledPrograms = [];
+  
+      async function fetchData() {
+          const memberResponse = await fetch(membersUrl);
+          members = await memberResponse.json();
+  
+          const activitiesResponse = await fetch(trainingProgramsUrl);
+          trainingPrograms = await activitiesResponse.json();
+  
+          const enrolledProgramsResponse = await fetch(enrolledProgramsUrl);
+          enrolledPrograms = await enrolledProgramsResponse.json();
+      }
+  
+      await fetchData();
+      console.log("werf",trainingPrograms)
+  
+      const displayProgramReport = () => {
+          const totalMembers = members.length;
+          const tbody = document.querySelector('#programReportTable tbody');
+          tbody.innerHTML = '';
+  
+          // Selected Members
+          const selectedMembers = [...new Set(enrolledPrograms.map(program => program.memberId))];
+          const selectedMembersPercentage = ((selectedMembers.length / totalMembers) * 100).toFixed(0);
+  
+          // Show total members and selected members
+          tbody.innerHTML += `
+              <tr>
+                  <td>Total Members</td>
+                  <td>${totalMembers}</td>
+              </tr>
+              <tr>
+                  <td>Training Program Selected Members</td>
+                  <td>${selectedMembers.length} Members </td>
+                  <td>${selectedMembersPercentage} %</td>
+              </tr>
+          `;
+  
+          // Iterate over all programs to list each one with its members and percentage
+          trainingPrograms.forEach(program => {
+            console.log(program)
+              const programMembers = enrolledPrograms.filter(enrollment => enrollment.programId === program.programId);
+              const memberCount = programMembers.length;
+              const memberPercentage = ((memberCount / totalMembers) * 100).toFixed(0);
+  
+              // If no members selected, display 0 members and 0%
+              tbody.innerHTML += `
+                  <tr>
+                      <td>${program.programName}</td>
+                      <td>${memberCount} </td>
+                      <td>${memberCount > 0 ? memberPercentage : 0} %</td>
+                  </tr>
+              `;
+          });
+      };
+  
+      displayProgramReport();
+  });
+  
+  </script>
