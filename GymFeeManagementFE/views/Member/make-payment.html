@@ -1,0 +1,292 @@
+<style>
+    #paymentForm input {
+        background-color: white;
+    }
+
+    .paymentCard h2,
+    h3 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    #paymentForm input,
+    #paymentForm select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    #paymentForm input:focus,
+    #paymentForm select:focus {
+        outline: none;
+        border-color: #1abc9c;
+    }
+
+    #paymentForm button {
+        width: 100%;
+        padding: 10px;
+        background-color: #1abc9c;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    #paymentForm button:hover {
+        background-color: #16a085;
+    }
+
+    #paymentSection {
+        margin-top: 20px;
+    }
+
+    #paymentCard {
+        margin-top: 10px;
+        background-color: #ecf0f1;
+        max-height: 100vh;
+        height: 500px;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        padding: 20px;
+        border-radius: 10px;
+        /* width: 100%; */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<section id="content">
+    <h2 id="contentTitle">Payment</h2>
+    <div id="paymentCard">
+        <div class="row">
+            <div class="col-12">
+                <div id="paymentSection">
+                    <form id="paymentForm">
+                        <select id="monthsSelect" class="form-input"></select>
+
+                        <label for="amount">Amount (LKR):</label>
+                        <input type="number" id="amount" placeholder="Enter amount" required>
+
+                        <label for="receiptNumber">Receipt Number:</label>
+                        <input type="text" id="receiptNumber" placeholder="Enter receipt number" required>
+
+                        <label for="receiptUpload">Upload Receipt:</label>
+                        <input type="file" id="receiptUpload" required>
+
+                        <button type="submit" class="btn">Pay</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+        const membersUrl = "https://localhost:7256/api/Member";
+        const trainingProgramsUrl = "https://localhost:7256/api/TrainigProgram";
+        const enrolledProgramsUrl = "https://localhost:7256/api/EnrollProgram";
+        const paymentsUrl = "https://localhost:7256/api/Payment";
+        const paymentRequestsUrl = "https://localhost:7256/api/Request/PaymentRequest";
+        const lastIdsUrl = "https://localhost:7256/api/LastId";
+     
+
+        let members = [];
+        let trainingPrograms = [];
+        let enrolledPrograms = [];
+        let payments = [];
+        let approvalRequests = [];
+        let lastIds = [];
+        let enrollMonths = [{ period: 1, discount: 0 }, { period: 3, discount: 10 }, { period: 6, discount: 15 }, { period: 12, discount: 25 },];
+        let finalAmount = 0;
+        
+        async function fetchData() {
+
+            const paymentResponse = await fetch(paymentsUrl);
+            const paymentsWhole = await paymentResponse.json();
+            payments = paymentsWhole.result;
+
+            const memberResponse = await fetch(membersUrl);
+            members = await memberResponse.json();
+
+            const activitiesResponse = await fetch(trainingProgramsUrl);
+            trainingPrograms = await activitiesResponse.json();
+            console.log(trainingPrograms)
+
+            const enrolledProgramsResponse = await fetch(enrolledProgramsUrl);
+            enrolledPrograms = await enrolledProgramsResponse.json();
+
+            const lastidsResponse = await fetch(lastIdsUrl);
+            lastIds = await lastidsResponse.json();
+        }
+
+        await fetchData();
+
+        const monthSelect = document.getElementById('monthsSelect');
+        monthSelect.innerHTML = '';
+        let defaultMonthOption = document.createElement('option');
+        defaultMonthOption.text = "Select Month";
+        defaultMonthOption.value = 1;
+        monthSelect.appendChild(defaultMonthOption);
+
+        enrollMonths.forEach(month => {
+            const option = document.createElement('option');
+            option.value = month.period;
+            option.text = `${month.period} - Discount ${month.discount} %`;
+            monthSelect.appendChild(option);
+        });
+
+        const memberPrograms = enrolledPrograms.filter(program => program.memberId === loggedInUser.memberId);
+        console.log(memberPrograms)
+        const totalPayment = memberPrograms.reduce((total, program) => {
+            const activity = trainingPrograms.find(activity => activity.programId === program.programId);
+            return total + (activity ? activity.cost : 0);
+        }, 0);
+
+        console.log(totalPayment);
+
+        document.getElementById('amount').value = totalPayment;
+
+        document.getElementById("monthsSelect").addEventListener("change", () => {
+            finalAmount = 0;
+            const selectedMonths = Number(document.getElementById('monthsSelect').value);
+            finalAmount = calculateDiscountedAmount(totalPayment, selectedMonths);
+            document.getElementById('amount').value = finalAmount;
+        });
+
+        document.getElementById('paymentForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const memberId = loggedInUser.memberId;
+            console.log(memberId);
+
+
+
+            const amount = finalAmount;
+            const receiptNumber = document.getElementById('receiptNumber').value.trim();
+            const receiptFile = document.getElementById('receiptUpload').files[0];
+            const selectedMonths = Number(document.getElementById('monthsSelect').value);
+
+            const paidDate = new Date();
+            const dueDate = new Date();
+
+            let paymentType = "Monthly";
+            if (selectedMonths === 1) {
+                dueDate.setDate(paidDate.getDate() + 30); // Set due date to 30 days from today
+            } else if (selectedMonths === 3) {
+                paymentType = "Quarterly";
+                dueDate.setDate(paidDate.getDate() + 90); // Set due date to 90 days (approx. 3 months)
+            } else if (selectedMonths === 6) {
+                paymentType = "Half-Yearly";
+                dueDate.setDate(paidDate.getDate() + 180); // Set due date to 180 days (approx. 6 months)
+            } else if (selectedMonths === 12) {
+                paymentType = "Annually";
+                dueDate.setDate(paidDate.getDate() + 365); // Set due date to 365 days (1 year)
+            }
+
+            if (amount && receiptNumber && receiptFile) {
+                const newApprovalRequest = {
+                    RequestId: generateID("AR", lastIds.requestId),
+                    RequestType: "payment",
+                    MemberId: memberId,
+                    PaymentType: paymentType,
+                    Amount: parseFloat(amount),
+                    ReceiptNumber: receiptNumber,
+                    PaidDate: paidDate.toISOString().split('T')[0],
+                    DueDate: dueDate.toISOString().split('T')[0],
+                    Status: "pending"
+                };
+                console.log(newApprovalRequest)
+                const postResponse = await postApi(paymentRequestsUrl, newApprovalRequest);
+                if (postResponse.ok) {
+                    lastIds.requestId++
+                    updateLastIds(lastIds);
+                    alert('Payment request sent to admin for approval!');
+                    location.reload();
+                }
+            } else {
+                alert('Please complete all fields.');
+            }
+
+        });
+
+        function calculateDiscountedAmount(amount, months) {
+            let finalAmount;
+
+            switch (months) {
+                case 1:
+                    finalAmount = amount;
+                    break;
+                case 3:
+                    finalAmount = (3*amount) - (amount * 0.10);
+                    break;
+                case 6:
+                    finalAmount = (6*amount) - (amount * 0.15);
+                    break;
+                case 12:
+                    finalAmount = (12*amount) - (amount * 0.25);
+                    break;
+            }
+
+            console.log(finalAmount)
+            if (months === 1) {
+                return finalAmount;
+            } else {
+                return Math.ceil(finalAmount / 100) * 100;
+            }
+        }
+
+
+        async function putApi(updateURL, id, data) {
+            const response = await fetch(`${updateURL}/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }
+
+        async function postApi(addURL, payload) {
+            const response = await fetch(addURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            return response;
+        }
+
+        async function deleteApi(deleteURL, id) {
+            const response = await fetch(`${deleteURL}/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            return response;
+        }
+
+        async function updateLastIds(data) {
+            const response = await fetch(lastIdsUrl, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }
+
+        const generateID = (prefix, lastId) => {
+            const number = lastId.toString().padStart(3, '0');
+            return `${prefix}${number}`;
+        };
+    })
+</script>
