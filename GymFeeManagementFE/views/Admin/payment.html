@@ -1,0 +1,429 @@
+<style>
+    #payment-container {
+        display: flex;
+        justify-content: space-between;
+        /* width: 90%;
+        margin: 20px auto;
+        padding: 20px; */
+    }
+
+    #backDashboardBtn:hover {
+        background-color: darkgreen;
+    }
+
+    #searchUserInput,
+    #paymentAmountInput {
+        padding: 10px;
+        border: 1px solid #ccc;
+        width: 300px;
+    }
+
+    #searchUserBtn {
+        padding: 5px 20px;
+        background-color: #005f73;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    #payment-method-container {
+        margin-top: 20px;
+    }
+
+    #payment-method-container h2,
+    .member-management-title {
+        color: #005f73;
+        font-size: 30px;
+    }
+
+    #payment-method-container label {
+        display: block;
+        margin: 10px 0;
+    }
+
+    #payment-header {
+        margin-top: 20px;
+    }
+
+    #addPaymentBtn {
+        display: block;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    #addPaymentBtn:hover {
+        background-color: #218838;
+    }
+
+    #member-details-container {
+        margin: 20px auto;
+        width: 800px;
+        border: 1px solid #005f73;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #trainingProgramsDisplay,
+    #member-details-container p {
+        margin: 15px 0;
+    }
+
+    #trainingProgramsDisplay {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    #paymentCard {
+        max-height: 100vh;
+        height: 650px;
+        overflow-y: auto;
+        margin-top: 50px;
+        background-color: #ecf0f1;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #monthsSelect {
+        width: 200px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 1px solid green;
+        margin-top: 10px;
+    }
+</style>
+<section id="content">
+    <h2 id="contentTitle">Payments</h2>
+    <div id="paymentCard">
+        <div id="payment-container">
+
+
+            <div id="payment-method-container">
+                <form>
+                    <input type="number" id="paymentAmountInput" placeholder="Enter payment amount">
+                    <div>
+                        <select id="monthsSelect" class="form-input">
+                        </select>
+                    </div>
+                    <label>Select payment method</label>
+                    <label><input type="radio" name="paymentMethod" value="Cash" checked> Cash</label>
+                    <label><input type="radio" name="paymentMethod" value="Card"> Card</label>
+                    <button type="button" id="addPaymentBtn">Add Payment</button>
+                </form>
+            </div>
+
+            <div id="payment-header">
+                <input type="text" id="searchUserInput" placeholder="Enter member user id/ NIC">
+                <button id="searchUserBtn">Search</button>
+            </div>
+
+        </div>
+
+        <div id="member-details-container">
+            <div>
+                <p>User name : <span id="userName"></span></p>
+                <p>User ID : <span id="userID"></span></p>
+                <p>Total Payment : <span id="totalPayment"></span></p>
+                <p>Last paid date : <span id="lastPaidDate"></span></p>
+                <p>Due Date : <span id="dueDate"></span></p>
+            </div>
+            <div class="member-training-program">
+                <p>Training programs :
+                <div id="trainingProgramsDisplay"> </div>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+        const membersUrl = "https://localhost:7256/api/Member";
+        const lastIdsUrl = "https://localhost:7256/api/LastId";
+        const trainingProgramsUrl = "https://localhost:7256/api/TrainigProgram";
+        const enrolledProgramsUrl = "https://localhost:7256/api/EnrollProgram";
+        const paymentsUrl = "https://localhost:7256/api/Payment";
+        const alertsUrl = "https://localhost:7256/api/Alert";
+
+        let alerts = [];
+        let members = [];
+        let enrolledPrograms = [];
+        let trainingProgramActivities = [];
+        let payments = [];
+        let lastIds = [];
+        let enrollMonths = [{ period: 1, discount: 0 }, { period: 3, discount: 10 }, { period: 6, discount: 15 }, { period: 12, discount: 25 },];
+        let finalAmount = 0;
+
+        async function fetchData() {
+            const paymentResponse = await fetch(paymentsUrl);
+            const paymentsWhole = await paymentResponse.json();
+            payments = paymentsWhole.result;
+
+            const memberResponse = await fetch(membersUrl);
+            members = await memberResponse.json();
+
+            const lastidsResponse = await fetch(lastIdsUrl);
+            lastIds = await lastidsResponse.json();
+
+            const activitiesResponse = await fetch(trainingProgramsUrl);
+            trainingPrograms = await activitiesResponse.json();
+            console.log("sdfghjk",trainingPrograms)
+
+            const enrolledProgramsResponse = await fetch(enrolledProgramsUrl);
+            enrolledPrograms = await enrolledProgramsResponse.json();
+
+            const alertsResponse = await fetch(alertsUrl);
+            alerts = await alertsResponse.json();
+        }
+
+        await fetchData();
+
+        async function putApi(updateURL, id, data) {
+            const response = await fetch(`${updateURL}/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }
+
+        async function updateLastIds(data) {
+            const response = await fetch(lastIdsUrl, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }
+
+        async function postApi(addURL, payload) {
+            const response = await fetch(addURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            return response;
+        }
+
+
+
+
+        const monthSelect = document.getElementById('monthsSelect');
+        monthSelect.innerHTML = '';
+        let defaultMonthOption = document.createElement('option');
+        defaultMonthOption.text = "Select Month";
+        defaultMonthOption.value = 1;
+        monthSelect.appendChild(defaultMonthOption);
+
+        enrollMonths.forEach(month => {
+            const option = document.createElement('option');
+            option.value = month.period;
+            option.text = `${month.period} - Discount ${month.discount} %`;
+            monthSelect.appendChild(option);
+        });
+
+        document.getElementById('searchUserBtn').addEventListener('click', () => {
+            const searchValue = document.getElementById('searchUserInput').value.toLowerCase();
+            const searchedMember = members.find(member =>
+                member.memberId.toLowerCase() === searchValue ||
+                member.nic.toLowerCase() === searchValue ||
+                member.userName.toLowerCase() === searchValue
+            );
+
+            if (searchedMember) {
+                displayMemberDetails(searchedMember);
+            } else {
+                alert("Member not found.");
+            }
+        });
+
+        function displayMemberDetails(member) {
+            document.getElementById('userName').textContent = `${member.firstName} ${member.lastName}`;
+            document.getElementById('userID').textContent = member.memberId;
+
+            const memberPrograms = enrolledPrograms.filter(program => program.memberId === member.memberId);
+            const memberPayments = payments.filter(payment => payment.memberId === member.memberId && payment.paymentType !== 'ProgramAddon' && payment.paymentType !== 'Initial');
+
+            if (memberPayments.length === 0) {
+                alert("Please enroll training programs for MemberID = " + member.memberId);
+                return;
+            }
+
+            const cardioPrograms = generateListItems(memberPrograms, trainingPrograms, "PT001");
+            const weightTrainingPrograms = generateListItems(memberPrograms, trainingPrograms, "PT002");
+
+            document.getElementById('trainingProgramsDisplay').innerHTML = `
+                                                                    <ul>
+                                                                        <b>Cardio</b>
+                                                                            <ul>${cardioPrograms}</ul>
+                                                                        <b>Weight Training</b>
+                                                                            <ul>${weightTrainingPrograms}</ul>
+                                                                    </ul>
+                                                                `;
+
+            const totalPayment = memberPrograms.reduce((total, program) => {
+                const activity = trainingPrograms.find(activity => activity.programId === program.programId);
+                return total + (activity ? activity.cost : 0);
+            }, 0);
+            document.getElementById('totalPayment').textContent = `Rs ${totalPayment}`;
+            const paymentAmount = document.getElementById('paymentAmountInput').value = totalPayment;
+            document.getElementById("monthsSelect").addEventListener("change", () => {
+                finalAmount = 0;
+                const selectedMonths = Number(document.getElementById('monthsSelect').value);
+
+                finalAmount = calculateDiscountedAmount(totalPayment, selectedMonths);
+
+                const paymentAmount = document.getElementById('paymentAmountInput').value = finalAmount;
+            });
+
+
+            if (memberPayments.length > 0) {
+                const lastPayment = memberPayments.sort((a, b) => new Date(b.paidDate) - new Date(a.paidDate))[0];
+                document.getElementById('lastPaidDate').textContent = lastPayment.paidDate;
+                document.getElementById('dueDate').textContent = lastPayment.dueDate || 'N/A';
+            } else {
+                document.getElementById('lastPaidDate').textContent = 'No payments found';
+                document.getElementById('dueDate').textContent = 'N/A';
+            }
+        };
+
+        function generateListItems(programs, activities, typeId) {
+            const filteredPrograms = programs.filter(program => {
+                const activity = activities.find(activity => activity.programId === program.programId);
+
+                return activity && activity.typeId === typeId;
+            });
+            console.log("ff",filteredPrograms)
+
+            if (filteredPrograms.length === 0) {
+                return typeId === "PT001" ? '<p>No cardio programs enrolled</p>' : '<p>No weight training programs enrolled</p>';
+            }
+
+            return filteredPrograms.map(program => {
+                const activity = activities.find(activity => activity.programId === program.programId);
+                return activity ? activity.programName : 'No matching activity';
+            }).join(', ');
+        }
+
+        document.getElementById('addPaymentBtn').addEventListener('click', async (event) => {
+            console.log("Add Payment button clicked");
+            event.preventDefault();
+            const memberId = document.getElementById('userID').textContent;
+            const paymentAmount = document.getElementById('paymentAmountInput').value;
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            if (!memberId || !paymentAmount) {
+                alert("Please select a member and enter a payment amount.");
+                return;
+            }
+            const selectedMonths = Number(document.getElementById('monthsSelect').value);
+
+            const newPaymentId = generateID("P", lastIds.paymentId);
+            const paidDate = new Date();
+            const dueDate = new Date();
+
+            let paymentType = "Monthly";
+            if (selectedMonths === 1) {
+                dueDate.setDate(paidDate.getDate() + 30); // Set due date to 30 days from today
+            } else if (selectedMonths === 3) {
+                paymentType = "Quarterly";
+                dueDate.setDate(paidDate.getDate() + 90); // Set due date to 90 days (approx. 3 months)
+            } else if (selectedMonths === 6) {
+                paymentType = "Half-Yearly";
+                dueDate.setDate(paidDate.getDate() + 180); // Set due date to 180 days (approx. 6 months)
+            } else if (selectedMonths === 12) {
+                paymentType = "Annually";
+                dueDate.setDate(paidDate.getDate() + 365); // Set due date to 365 days (1 year)
+            }
+
+            const memberAlerts = alerts.filter(alert => alert.memberId.toLowerCase() === memberId.toLowerCase() && alert.status === true);
+            console.log(memberAlerts)
+
+            memberAlerts.sort((a, b) => {
+                const alertIdA = parseInt(a.alertId.substring(1), 10);
+                const alertIdB = parseInt(b.alertId.substring(1), 10);
+                return alertIdB - alertIdA;
+            });
+
+            const lastOverdueAlert = memberAlerts.find(alert => alert.alertType === 'overdue');
+            const lastRenewalAlert = memberAlerts.find(alert => alert.alertType === 'renewal');
+            console.log("fdgdgd",lastOverdueAlert)
+            console.log("dfbhdfgbh",lastRenewalAlert)
+
+            if (lastOverdueAlert) {
+                lastOverdueAlert.status = false;
+            }
+
+            if (lastRenewalAlert) {
+                lastRenewalAlert.status = false;
+            }
+
+            const newPayment = {
+                PaymentId: newPaymentId,
+                MemberID: memberId,
+                PaymentType: paymentType,
+                Amount: finalAmount,
+                PaidDate: paidDate.toISOString().split('T')[0],
+                DueDate: dueDate.toISOString().split('T')[0],
+                PaymentMethod: paymentMethod
+            };
+
+            const addPaymentResponse = await postApi(paymentsUrl, newPayment);
+
+            if (addPaymentResponse.ok) {
+                lastIds.paymentId++;
+                await updateLastIds(lastIds);
+                if (lastOverdueAlert) {
+                    await putApi(alertsUrl, lastOverdueAlert.alertId, lastOverdueAlert);
+                }
+                if (lastRenewalAlert) {
+                    await putApi(alertsUrl, lastRenewalAlert.alertId, lastRenewalAlert);
+                }
+                alert("Payment added successfully!");
+            } else {
+                alert("Failed to add payment.");
+            }
+        });
+
+        function calculateDiscountedAmount(amount, months) {
+            let finalAmount;
+
+            switch (months) {
+                case 1:
+                    finalAmount = amount;
+                    break;
+                case 3:
+                    finalAmount = (3*amount) - (amount * 0.10);
+                    break;
+                case 6:
+                    finalAmount = (6*amount) - (amount * 0.15);
+                    break;
+                case 12:
+                    finalAmount = (12*amount) - (amount * 0.25);
+                    break;
+            }
+
+            console.log(finalAmount)
+            if (months === 1) {
+                return finalAmount;
+            } else {
+                return Math.ceil(finalAmount / 100) * 100;
+            }
+        }
+
+    })
+</script>

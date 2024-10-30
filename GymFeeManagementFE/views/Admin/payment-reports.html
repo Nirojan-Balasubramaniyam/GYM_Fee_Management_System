@@ -1,0 +1,730 @@
+<style>
+    #paymentReportHeader {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0px;
+        position: static;
+        top: 0;
+    }
+
+    #payment-report-container {
+        width: 95%;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+    }
+
+    #payment-report-title {
+        color: #b71c1c;
+        font-weight: bold;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    #search-section {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 20px;
+        gap: 10px;
+    }
+
+    #search-section label {
+        font-size: 16px;
+        color: #333;
+    }
+
+    #search-input {
+        padding: 2px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: 250px;
+        height: 40px;
+    }
+
+    #search-button,
+    #view-all-button {
+        padding: 8px 8px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: #4CAF50;
+        color: white;
+        width: 200px;
+        cursor: pointer;
+    }
+
+    #search-button {
+        width: 70px;
+    }
+
+    #search-button:hover,
+    #view-all-button:hover {
+        background-color: #45a049;
+    }
+
+    .TableInfo {
+        display: flex;
+        justify-content: space-between;
+        height: 20px;
+        margin-bottom: 15px;
+    }
+
+    #overdue-report-section,
+    #initial-payment-report-section,
+    #revenue-report-section {
+        margin: 15px 0px;
+    }
+
+    #overdue-report-title,
+    #income-report-title,
+    #initial-payment-report-title {
+        color: #d32f2f;
+        font-weight: bold;
+    }
+
+    #income-report-title,
+    #initial-payment-report-title {
+        color: green;
+    }
+
+    #overdue-report-table,
+    #revenue-report-table,
+    #initial-payment-report-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+        overflow-y: auto;
+    }
+
+    .report-header {
+        background-color: #eeeeee;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    #overdue-report-table tr,
+    #revenue-report-table tr,
+    #initial-payment-report-section tr {
+        background-color: #ffffff;
+    }
+
+    #overdue-report-table th,
+    #revenue-report-table th,
+    #initial-payment-report-section th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    #overdue-report-table td,
+    #revenue-report-table td,
+    #initial-payment-report-section td {
+        height: 40px;
+        padding: 0px 10px;
+    }
+
+    #overdue-report-table tr:nth-child(even),
+    #revenue-report-table tr:nth-child(even),
+    #initial-payment-report-section tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    #overdue-report-table tr:hover,
+    #revenue-report-table tr:hover,
+    #initial-payment-report-section tr:hover {
+        background-color: #f0f0f0;
+    }
+
+    #total-overdue,
+    #total-income,
+    #total-initial-payment {
+        color: #d32f2f;
+        font-weight: bold;
+        text-align: right;
+    }
+
+    #total-income,
+    #total-initial-payment {
+        color: green;
+    }
+
+    #revenue-report-title,
+    #inital-report-title {
+        color: #388e3c;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    #paymentReportCard {
+        max-height: 100vh;
+        height: 650px;
+        margin-top: 40px;
+        background-color: #ecf0f1;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .reportButtonsContainer {
+
+        margin-bottom: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .reportButton {
+        background-color: #b71c1c;
+        color: white;
+        padding: 10px;
+        width: 220px;
+        border: none;
+        margin: 0px 5px;
+        border-radius: 5px;
+    }
+
+    #view-all-button {
+        float: right;
+        margin-top: 10px;
+    }
+
+    #overdue-report-table-container,
+    #revenue-report-table-container,
+    #initial-payment-report-table-container {
+        overflow-y: auto;
+        max-height: 380px;
+    }
+
+    #overdue-report-table th,
+    #revenue-report-table th,
+    #initial-payment-report-table th {
+        position: sticky;
+        top: 0;
+    }
+
+    #monthlyReportBtn {
+        background-color: white;
+        color: #b71c1c;
+    }
+
+    #dateForm label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* Styling for select and input fields */
+    #dateForm select,
+    #dateForm input[type="number"] {
+
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+        color: #555;
+    }
+
+    #dateForm button:hover {
+        background-color: #45a049;
+    }
+
+
+    #monthlyPayBtn {
+        background-color: #ff5722;
+        margin-bottom: 10px;
+        color: white;
+        font-weight: 500;
+    }
+
+    #monthlyPayBtn:hover {
+        background-color: #1e88e5;
+    }
+
+    #allPayBtn {
+        background-color: white;
+        color: #ff5722;
+        width: 200px;
+        font-weight: 500;
+
+    }
+
+    #allPayBtn:hover {
+        background-color: #e64a19;
+
+    }
+
+    button {
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    #paymentContent {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: 160px;
+    }
+</style>
+
+<section id="content">
+    <h2 id="contentTitle">Payment Reports</h2>
+    <div id="dynamicContent">
+        <div id="paymentReportCard">
+            <div class="col-2" id="paymentContent">
+                <form id="dateForm">
+                    <div class="d-flex justify-content-around">
+                        <div class="formGroup">
+                            <label for="month">Select Month:</label>
+                            <select id="month" name="month">
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+
+                        <div class="formGroup">
+                            <label for="year">Select Year:</label>
+                            <select id="year" name="year" required></select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>
+                            <button type="button" id="monthlyPayBtn">Display Filtered Financials</button>
+                            <button type="button" id="allPayBtn">Display All Financials</button>
+                        </div>
+                    </div>
+
+                </form>
+                <div class="reportButtonsContainer">
+                    <button class="reportButton" id="monthlyReportBtn">Monthly Payment Report</button>
+                    <button class="reportButton" id="initialReportBtn">Initial Payment Report</button>
+                    <button class="reportButton" id="overdueReportBtn">Overdue Payment Report</button>
+                </div>
+
+                <div class="searchSection">
+                    <div>
+                        <input type="text" id="search-input" placeholder="Search member by User ID or NIC">
+                        <button id="search-button">Search</button>
+                    </div>
+                    <button id="view-all-button">View All Payment Reports</button>
+                </div>
+            </div>
+            <hr>
+
+
+
+
+            <!-- Overdue Report Section -->
+            <div id="overdue-report-section">
+                <div class="TableInfo">
+                    <p id="overdue-report-title">Overdue Report</p>
+                    <p id="total-overdue">Total Overdue: Rs0.00</p>
+                </div>
+                <div id="overdue-report-table-container">
+                    <table id="overdue-report-table">
+                        <thead>
+                            <tr>
+                                <th class="report-header">Member Name</th>
+                                <th class="report-header">User ID</th>
+                                <th class="report-header">Due Amount</th>
+                                <th class="report-header">Due Date</th>
+                                <th class="report-header">Contact Number</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Income Report Section -->
+            <div id="revenue-report-section">
+                <div class="TableInfo">
+                    <p id="income-report-title">Income Report</p>
+                    <p id="total-income">Total Income: Rs0.00</p>
+                </div>
+                <div id="revenue-report-table-container">
+                    <table id="revenue-report-table">
+                        <thead>
+                            <tr>
+                                <th class="report-header">Member Name</th>
+                                <th class="report-header">User ID</th>
+                                <th class="report-header">Payment Type</th>
+                                <th class="report-header">Amount</th>
+                                <th class="report-header">Paid Date</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Initial Payment Report Section -->
+            <div id="initial-payment-report-section">
+                <div class="TableInfo">
+                    <p id="initial-payment-report-title">Initial Payment Report</p>
+                    <p id="total-initial-payment">Total Initial Payment: Rs0.00</p>
+                </div>
+                <div id="initial-payment-report-table-container">
+                    <table id="initial-payment-report-table">
+                        <thead>
+                            <tr>
+                                <th class="report-header">Member Name</th>
+                                <th class="report-header">User ID</th>
+                                <th class="report-header">Amount</th>
+                                <th class="report-header">Paid Date</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+        const membersUrl = "https://localhost:7256/api/Member";
+        const paymentsUrl = "https://localhost:7256/api/Payment";
+
+        let members = [];
+        let payments = [];
+
+        async function fetchData() {
+            const paymentResponse = await fetch(paymentsUrl);
+            const paymentsWhole = await paymentResponse.json();
+            payments = paymentsWhole.result;
+
+            const memberResponse = await fetch(membersUrl);
+            members = await memberResponse.json();
+        }
+
+        await fetchData();
+
+        let monthlyReportBtn = document.getElementById("monthlyReportBtn");
+        let overdueReportBtn = document.getElementById("overdueReportBtn");
+        let initialReportBtn = document.getElementById("initialReportBtn");
+
+        let selectedReport = 2;
+
+        let overdueDiv = document.getElementById("overdue-report-section");
+        let incomeDiv = document.getElementById("revenue-report-section");
+        let initialDiv = document.getElementById("initial-payment-report-section");
+
+        viewReport(selectedReport);
+
+        document.getElementById("initialReportBtn").addEventListener("click", () => {
+            selectedReport = 3;
+            viewReport(selectedReport);
+            monthlyReportBtn.style.backgroundColor = "#b71c1c";
+            monthlyReportBtn.style.color = "white";
+
+            overdueReportBtn.style.backgroundColor = "#b71c1c";
+            overdueReportBtn.style.color = "white";
+
+            initialReportBtn.style.backgroundColor = "white";
+            initialReportBtn.style.color = "#b71c1c";
+        });
+
+        document.getElementById("monthlyReportBtn").addEventListener("click", () => {
+            selectedReport = 2;
+            viewReport(selectedReport);
+            monthlyReportBtn.style.backgroundColor = "white";
+            monthlyReportBtn.style.color = "#b71c1c";
+
+            overdueReportBtn.style.backgroundColor = "#b71c1c";
+            overdueReportBtn.style.color = "white";
+
+            initialReportBtn.style.backgroundColor = "#b71c1c";
+            initialReportBtn.style.color = "white";
+        });
+
+        document.getElementById("overdueReportBtn").addEventListener("click", () => {
+            selectedReport = 1;
+            viewReport(selectedReport);
+            monthlyReportBtn.style.backgroundColor = "#b71c1c";
+            monthlyReportBtn.style.color = "white";
+
+            overdueReportBtn.style.backgroundColor = "white";
+            overdueReportBtn.style.color = "#b71c1c";
+
+            initialReportBtn.style.backgroundColor = "#b71c1c";
+            initialReportBtn.style.color = "white";
+        });
+
+
+        function viewReport(selectedReport) {
+            switch (selectedReport) {
+                case 1:
+                    overdueDiv.style.display = "block";
+                    incomeDiv.style.display = "none";
+                    initialDiv.style.display = "none";
+                    break;
+                case 2:
+                    overdueDiv.style.display = "none";
+                    incomeDiv.style.display = "block";
+                    initialDiv.style.display = "none";
+                    break;
+                case 3:
+                    overdueDiv.style.display = "none";
+                    incomeDiv.style.display = "none";
+                    initialDiv.style.display = "block";
+                    break;
+                default:
+                    overdueDiv.style.display = "block";
+                    incomeDiv.style.display = "block";
+                    initialDiv.style.display = "block";
+            }
+        }
+
+
+        // Populate the year select element
+        const yearSelect = document.getElementById("year");
+        const startYear = 2010;
+        const currentYear = new Date().getFullYear();
+
+        for (let year = startYear; year <= currentYear; year++) {
+            const option = document.createElement("option");
+            option.value = year;
+            option.textContent = year;
+            yearSelect.appendChild(option);
+        }
+
+        // Populate the month select element
+        const monthSelect = document.getElementById("month");
+        for (let month = 1; month <= 12; month++) {
+            const option = document.createElement("option");
+            option.value = month;
+            option.textContent = new Date(0, month - 1).toLocaleString("en-US", { month: "long" });
+            monthSelect.appendChild(option);
+        }
+        let monthFilterBtn = document.getElementById("monthlyPayBtn");
+        let allFilterBtn = document.getElementById("allPayBtn");
+
+        // Event listeners to display income and overdue based on selected month and year
+        monthFilterBtn.addEventListener("click", () => {
+            monthFilterBtn.style.backgroundColor = "white";
+            monthFilterBtn.style.color = "#ff5722";
+            allFilterBtn.style.color = "white";
+            allFilterBtn.style.backgroundColor = "#ff5722";
+
+            displayAllReports();
+        });
+
+        allFilterBtn.addEventListener("click", () => {
+            monthFilterBtn.style.backgroundColor = "#ff5722";
+            monthFilterBtn.style.color = "white";
+            allFilterBtn.style.color = "#ff5722";
+            allFilterBtn.style.backgroundColor = "white";
+
+            displayAllReports(true);
+        });
+
+        document.getElementById("search-button").addEventListener("click", () => {
+            const searchInput = document.getElementById("search-input").value.trim().toLowerCase();
+
+            // Find member by memberId, nic, or userName
+            const member = members.find(m =>
+                m.memberId.toLowerCase() === searchInput ||
+                m.nic.toLowerCase() === searchInput ||
+                m.userName.toLowerCase() === searchInput
+            );
+
+            if (member) {
+                displayIncomeReport(member.memberId, true);
+                displayOverdueReport(member.memberId, true);
+                displayInitialPaymentReport(member.memberId, true);
+                calculateTotals(member.memberId, true);
+            } else {
+                alert("No member found with the entered ID, NIC, or Username.");
+            }
+        });
+
+
+        document.getElementById("view-all-button").addEventListener("click", () => {
+            displayAllReports(true);
+        });
+
+
+        function displayIncomeReport(filterMemberId = null, showAll = false) {
+            const selectedMonth = parseInt(document.getElementById("month").value);
+            const selectedYear = parseInt(document.getElementById("year").value);
+
+            const tbody = document.querySelector('#revenue-report-table tbody');
+            tbody.innerHTML = '';
+
+            let filteredPayments = payments.filter(payment => payment.paymentType !== 'ProgramAddon' && payment.paymentType !== 'Initial');
+
+            if (filterMemberId) {
+                filteredPayments = filteredPayments.filter(payment => payment.memberId === filterMemberId);
+            }
+
+            if (!showAll) {
+                filteredPayments = filteredPayments.filter(payment => {
+                    const paymentDate = new Date(payment.paidDate);
+                    return paymentDate.getMonth() + 1 === selectedMonth && paymentDate.getFullYear() === selectedYear;
+                });
+            }
+
+            filteredPayments.forEach(payment => {
+                const member = members.find(member => member.memberId === payment.memberId);
+                let formatedPaidDate = new Date(payment.paidDate).toLocaleDateString('en-US');
+                if (member) {
+                    const row = `
+                <tr>
+                    <td>${member.firstName} ${member.lastName}</td>
+                    <td>${member.memberId}</td>
+                    <td>${payment.paymentType}</td>
+                    <td>Rs ${payment.amount}</td>
+                    <td>${formatedPaidDate}</td>
+                </tr>
+            `;
+                    tbody.innerHTML += row;
+                }
+            });
+        };
+
+        function displayOverdueReport(filterMemberId = null, showAll = false) {
+            const selectedMonth = parseInt(document.getElementById("month").value);
+            const selectedYear = parseInt(document.getElementById("year").value);
+
+            const tbody = document.querySelector('#overdue-report-table tbody');
+            tbody.innerHTML = '';
+
+            let filteredPayments = payments.filter(payment => new Date(payment.dueDate) < new Date() && payment.dueDate);
+
+            if (filterMemberId) {
+                filteredPayments = filteredPayments.filter(payment => payment.memberId === filterMemberId);
+            }
+
+            if (!showAll) {
+                filteredPayments = filteredPayments.filter(payment => {
+                    const dueDate = new Date(payment.dueDate);
+                    return dueDate.getMonth() + 1 === selectedMonth && dueDate.getFullYear() === selectedYear;
+                });
+            }
+
+            filteredPayments.forEach(payment => {
+                const member = members.find(member => member.memberId === payment.memberId);
+                let formatedDueDate = new Date(payment.dueDate).toLocaleDateString('en-US');
+                if (member) {
+                    const row = `
+                <tr>
+                    <td>${member.firstName} ${member.lastName}</td>
+                    <td>${member.memberId}</td>
+                    <td>Rs ${payment.amount}</td>
+                    <td>${formatedDueDate}</td>
+                    <td>${member.phone}</td>
+                </tr>
+            `;
+                    tbody.innerHTML += row;
+                }
+            });
+        };
+
+        function displayInitialPaymentReport(filterMemberId = null, showAll = false) {
+            const selectedMonth = parseInt(document.getElementById("month").value);
+            const selectedYear = parseInt(document.getElementById("year").value);
+
+            const tbody = document.querySelector('#initial-payment-report-table tbody');
+            tbody.innerHTML = '';
+
+            let filteredPayments = payments.filter(payment => payment.paymentType === 'Initial');
+
+            if (filterMemberId) {
+                filteredPayments = filteredPayments.filter(payment => payment.memberId === filterMemberId);
+            }
+
+            if (!showAll) {
+                filteredPayments = filteredPayments.filter(payment => {
+                    const paymentDate = new Date(payment.paidDate);
+                    return paymentDate.getMonth() + 1 === selectedMonth && paymentDate.getFullYear() === selectedYear;
+                });
+            }
+
+            filteredPayments.forEach(payment => {
+                const member = members.find(member => member.memberId === payment.memberId);
+                let formatedPaidDate = new Date(payment.paidDate).toLocaleDateString('en-US');
+
+                if (member) {
+                    const row = `
+                <tr>
+                    <td>${member.firstName} ${member.lastName}</td>
+                    <td>${member.memberId}</td>
+                    <td>Rs ${payment.amount}</td>
+                    <td>${formatedPaidDate}</td>
+                </tr>
+            `;
+                    tbody.innerHTML += row;
+                }
+            });
+        };
+
+        function calculateTotals(filterMemberId = null, showAll = false) {
+            const selectedMonth = parseInt(document.getElementById("month").value);
+            const selectedYear = parseInt(document.getElementById("year").value);
+
+            let filteredPayments = payments;
+
+          
+            if (filterMemberId) {
+                filteredPayments = filteredPayments.filter(payment => payment.memberId === filterMemberId);
+            }
+
+            if (!showAll) {
+                filteredPayments = filteredPayments.filter(payment => {
+                    const paymentDate = new Date(payment.paidDate);
+                    return paymentDate.getMonth() + 1 === selectedMonth && paymentDate.getFullYear() === selectedYear;
+                });
+            }
+
+            const totalIncome = filteredPayments
+                .filter(payment => payment.paymentType !== 'ProgramAddon' && payment.paymentType !== 'Initial')
+                .reduce((sum, payment) => sum + payment.amount, 0);
+
+            const totalOverdue = filteredPayments
+                .filter(payment => new Date(payment.dueDate) < new Date() && payment.dueDate)
+                .reduce((sum, payment) => sum + payment.amount, 0);
+
+            const totalInitialPayment = filteredPayments
+                .filter(payment => payment.paymentType === 'Initial')
+                .reduce((sum, payment) => sum + payment.amount, 0);
+
+           
+            document.getElementById('total-income').textContent = `Total Income: Rs${totalIncome.toFixed(2)}`;
+            document.getElementById('total-overdue').textContent = `Total Overdue: Rs${totalOverdue.toFixed(2)}`;
+            document.getElementById('total-initial-payment').textContent = `Total Initial Payment: Rs${totalInitialPayment.toFixed(2)}`;
+        }
+
+
+
+        // Initialize by displaying all reports
+        const displayAllReports = (showAll = false) => {
+            displayIncomeReport(null, showAll);
+            displayOverdueReport(null, showAll);
+            displayInitialPaymentReport(null, showAll);
+            calculateTotals(null, showAll);
+        };
+
+        displayAllReports();
+
+        displayAllReports(true);
+    })
+</script>
