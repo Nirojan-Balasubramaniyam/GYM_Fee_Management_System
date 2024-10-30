@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rojan\\Desktop\\GYMFeemanagementBE - Copy (2)\\GYMFeeManagement\\GYMFeeManagement.csproj": {}
+    "C:\\Users\\Admin\\Documents\\GitHub\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\GYMFeeManagement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rojan\\Desktop\\GYMFeemanagementBE - Copy (2)\\GYMFeeManagement\\GYMFeeManagement.csproj": {
+    "C:\\Users\\Admin\\Documents\\GitHub\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\GYMFeeManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rojan\\Desktop\\GYMFeemanagementBE - Copy (2)\\GYMFeeManagement\\GYMFeeManagement.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\GYMFeeManagement.csproj",
         "projectName": "GYMFeeManagement",
-        "projectPath": "C:\\Users\\rojan\\Desktop\\GYMFeemanagementBE - Copy (2)\\GYMFeeManagement\\GYMFeeManagement.csproj",
-        "packagesPath": "C:\\Users\\rojan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rojan\\Desktop\\GYMFeemanagementBE - Copy (2)\\GYMFeeManagement\\obj\\",
+        "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\GYMFeeManagement.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\rojan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -81,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
