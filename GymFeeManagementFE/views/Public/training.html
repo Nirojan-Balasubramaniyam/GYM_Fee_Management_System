@@ -1,0 +1,160 @@
+
+<style>
+    /* Section Heading */
+.section-heading {
+    color: #ff4500; /* Vibrant accent color */
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Program Subheading */
+.program-subheading {
+    color: #333;
+    font-size: 1.8rem;
+    margin-top: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Grid Layout */
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 400px));
+    gap: 20px 120px;
+}
+
+/* Card Styling */
+.card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    width: 350px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 0.8rem;
+}
+
+.card b {
+    font-size: 1.2rem;
+    color: #ff4500; /* Accent color for emphasis */
+    display: block;
+    margin: 0.5rem 0;
+}
+
+.description {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.4;
+    margin: 0.5rem 0 1rem;
+}
+
+.fees {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+/* Continue Button */
+.continue-btn {
+    background-color: #ff4500;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.continue-btn:hover {
+    background-color: #cc3700; /* Darker shade for hover effect */
+}
+
+</style>
+
+
+
+<section style="width: 100%; padding: 2rem 0;">
+    <div class="container-fluid">
+        <h2 class="section-heading">Our Training Programs</h2>
+
+        <!-- Cardio Section -->
+        <h3 class="program-subheading">Cardio</h3>
+        <div class="grid" id="cardio">
+            <div class="card">
+                <img src="../../static/images/img1.jpg" alt="Running">
+                <b>Running</b>
+                <div class="description">An excellent way to improve cardiovascular endurance and burn calories.</div>
+                <div class="fees">Fees: Rs500/month</div>
+                <button class="continue-btn">Continue</button>
+            </div>
+            <div class="card">
+                <img src="../../static/images/img5.jpg" alt="Cycling">
+                <b>Cycling</b>
+                <div class="description">A low-impact workout for strengthening muscles and burning fat.</div>
+                <div class="fees">Fees: Rs800/month</div>
+                <button class="continue-btn">Continue</button>
+            </div>
+            <div class="card">
+                <img src="../../static/images/img3.jpg" alt="Aerobic">
+                <b>Aerobic</b>
+                <div class="description">A group-based cardio workout that builds endurance and increases stamina.</div>
+                <div class="fees">Fees: Rs500/month</div>
+                <button class="continue-btn">Continue</button>
+            </div>
+        </div>
+
+        <!-- Weight Training Section -->
+        <h3 class="program-subheading">Weight Training</h3>
+        <div class="grid" id="weight-training">
+            <div class="card">
+                <img src="../../static/images/img4.jpg" alt="Lifting">
+                <b>Lifting</b>
+                <div class="description">A strength training workout focused on muscle gain and power lifting.</div>
+                <div class="fees">Fees: Rs1500/month</div>
+                <button class="continue-btn">Continue</button>
+            </div>
+            <div class="card">
+                <img src="../../static/images/img2.jpg" alt="Bodybuilding">
+                <b>Bodybuilding</b>
+                <div class="description">Designed to build muscle mass through resistance training and diet planning.</div>
+                <div class="fees">Fees: Rs2000/month</div>
+                <button class="continue-btn">Continue</button>
+            </div>
+            <div class="card">
+                <img src="../../static/images/img6.jpg" alt="Strength Training">
+                <b>Strength Training</b>
+                <div class="description">A full-body workout to improve muscle tone, balance, and stamina.</div>
+                <div class="fees">Fees: Rs1500/month</div>
+                <button class="continue-btn">Continue</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<script>
+
+    document.querySelectorAll('.continue-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            alert("Please visit our  Near Location to Register");
+        });
+    });
+</script>
