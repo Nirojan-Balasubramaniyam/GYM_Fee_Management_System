@@ -1,0 +1,181 @@
+<style>
+    #notificationCard {
+        margin-top: 10px;
+        background-color: #ecf0f1;
+        max-height: 100vh;
+        height: 500px;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        padding: 20px;
+        border-radius: 10px;
+        /* width: 100%; */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Table Header Styles */
+    .notification-table-header {
+        background-color: #1abc9c;
+        color: white;
+        padding: 10px;
+        text-align: left;
+    }
+
+    /* Notification Table Header (override specific style) */
+    .notification-table-header {
+        background-color: #353f3d;
+    }
+
+    .notification-table-row td {
+        padding: 15px 0;
+        letter-spacing: 2px;
+        color: black;
+      
+    }
+
+    .close-btn {
+        background-color: none;
+        color: orangered;
+        text-decoration: none;
+        font-size: 25px;
+        font-weight: 800;
+        cursor: pointer;
+        margin-left: 20px;
+        padding-left: 20px;
+    }
+</style>
+
+<section id="content">
+    <h2 id="contentTitle">Notifications</h2>
+    <div id="notificationCard">
+        <div class="row">
+            <div class="col-12">
+                <div class="notification-card">
+                    <table id="notificationTable">
+                      
+                        <tbody id="notificationTableBody">
+                       
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+        const membersUrl = "https://localhost:7256/api/Member";
+        const trainingProgramsUrl = "https://localhost:7256/api/TrainigProgram";
+        const enrolledProgramsUrl = "https://localhost:7256/api/EnrollProgram";
+        const lastIdsUrl = "https://localhost:7256/api/LastId";
+        const alertsUrl = "https://localhost:7256/api/Alert";
+     
+
+        let members = [];
+        let lastIds = [];
+        let enrolledPrograms = [];
+        let trainingPrograms = [];
+        let alerts = [];
+        
+        async function fetchData() {
+
+            const memberResponse = await fetch(membersUrl);
+            members = await memberResponse.json();
+
+            const lastidsResponse = await fetch(lastIdsUrl);
+            lastIds = await lastidsResponse.json();
+
+            const alertsResponse = await fetch(alertsUrl);
+            alerts = await alertsResponse.json();
+
+            const enrolledProgramsResponse = await fetch(enrolledProgramsUrl);
+            enrolledPrograms = await enrolledProgramsResponse.json();
+
+            const trainingProgramsResponse = await fetch(trainingProgramsUrl);
+            trainingPrograms = await trainingProgramsResponse.json();
+        }
+
+        await fetchData();
+
+        function displayNotification() {
+            const notificationTableBody = document.getElementById('notificationTableBody');
+            notificationTableBody.innerHTML = '';
+
+            const memberAlerts = alerts.filter(alert => alert.memberId === loggedInUser.memberId && alert.status===true);
+            if (memberAlerts.length === 0) {
+                const noNotificationtRow = document.createElement('tr');
+                const noNotificationtCell = document.createElement('td');
+                noNotificationtCell.setAttribute('colspan', 4);
+                noNotificationtCell.textContent = "You don't have any notifications";
+                noNotificationtRow.appendChild(noNotificationtCell);
+                notificationTableBody.appendChild(noNotificationtRow);
+                return;
+            }
+
+            memberAlerts.forEach((alert, index) => {
+                let programName;
+                let findedProgram;
+                const row = document.createElement('tr');
+                row.classList.add('notification-table-row');
+                if (alert.programId) {
+                    findedProgram = trainingPrograms.find(program => program.programId === alert.programId);
+                    console.log("FDbdzfb",findedProgram)
+                    programName = findedProgram ? findedProgram.programName : "Unknown Program";
+                }
+
+                let alertContent;
+                if (alert.status) {
+                    if (alert.alertType === 'overdue' || alert.alertType === 'renewal') {
+                        alertContent = `<td> You have the ${alert.alertType} alert of Rs ${alert.amount}  :  Due Date is ${alert.dueDate} </td>`;
+                    }
+                    if (alert.action) {
+                        if (alert.alertType === 'paymentrequestMessage') {
+                            alertContent = `<td> Your Payment Request of Rs ${alert.amount} was accepted!  :  Next Due Date is ${alert.dueDate} </td>`;
+                        } else if (alert.alertType === 'leaveProgramRequestMessage') {
+                            alertContent = `<td> Your Leave Request of activity ${programName} was accepted! </td>`;
+                        } else if (alert.alertType === 'programAddonRequestMessage') {
+                            alertContent = `<td> Your Enroll Program Request of activity ${programName} was accepted! </td>`;
+                        } else if (alert.alertType === 'memberInfoRequestMessage') {
+                            alertContent = `<td> Your Member Information Change Request was accepted! </td>`;
+                        }
+                    } else {
+                        if (alert.alertType === 'paymentrequestMessage') {
+                            alertContent = `<td> Your Payment Request of Rs ${alert.amount} was declined! </td>`;
+                        } else if (alert.alertType === 'leaveProgramRequestMessage') {
+                            alertContent = `<td> Your Leave Request of activity ${programName} was declined!</td>`;
+                        } else if (alert.alertType === 'programAddonRequestMessage') {
+                            alertContent = `<td> Your Enroll Program Request of activity ${programName} was declined!</td>`;
+                        } else if (alert.alertType === 'memberInfoRequestMessage') {
+                            alertContent = `<td> Your Member Information Change Request was declined! </td>`;
+                        }
+                    }
+                }
+
+                // Add the close (X) button if it's not an 'overdue' or 'renewal' type
+                if (alert.alertType !== 'overdue' && alert.alertType !== 'renewal') {
+                    alertContent += ` <td> <span style="color: #555; font-size: 15px;"> - (${alert.accessedDate})</span></td>`;
+                    alertContent += `<td><a class="close-btn" data-index="${index}">&times;</a></td>`;
+                }
+
+                row.innerHTML = alertContent;
+                notificationTableBody.appendChild(row);
+            });
+
+            // Add event listeners to close buttons
+            const closeButtons = document.querySelectorAll('.close-btn');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const alertIndex = this.getAttribute('data-index');
+                    console.log(alertIndex)
+                    console.log(memberAlerts[alertIndex])
+                    memberAlerts[alertIndex].status = false;
+                    putApi(alertsUrl, memberAlerts[alertIndex].alertId, memberAlerts[alertIndex])  // Update alert status to false
+                    displayNotification();  // Re-render notifications
+                });
+            });
+        }
+
+        displayNotification();
+    })
+</script>
