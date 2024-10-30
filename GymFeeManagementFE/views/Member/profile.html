@@ -1,0 +1,192 @@
+<style>
+    #userInfo {
+        margin: 20px auto;
+        border-collapse: collapse;
+        font-size: 18px;
+        /* margin: 20px auto; */
+        background-color: white;
+        border-radius: 5px;
+        width: 95%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #userInfo thead th {
+        padding: 10px;
+        text-align: left;
+        vertical-align: middle;
+        color: #0c2a48;
+    }
+
+    #userInfo tbody td {
+        padding: 8px;
+        text-align: left;
+        vertical-align: middle;
+        color: #2c3e50;
+    }
+
+    #userInfo tbody tr:hover {
+        background-color: #e0f7fa;
+        transform: scale(1.005);
+        transition: all 0.2s ease-in-out;
+    }
+
+    #profileCard {
+        margin-top: 10px;
+        background-color: #ecf0f1;
+        max-height: 100vh;
+        height: 500px;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .user{
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+    }
+    #profile{
+        border-radius: 50%; 
+        object-fit: cover;
+        border: 5px solid #b71c1c;
+    }
+</style>
+
+
+<section id="content">
+    <h2 id="contentTitle">Profile</h2>
+    <div id="profileCard">
+        <div class="row">
+            <div class="col-12">
+                <table id="userInfo">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>NIC Number</th>
+                            <th>Mobile Number ID</th>
+                            <th>Registration Date</th>
+                        </tr>
+                    </thead>
+                    <tbody> </tbody>
+                </table>
+            </div>
+
+            <div class="col-12 user"> </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+        const membersUrl = "https://localhost:7256/api/Member";
+        const trainingProgramsUrl = "https://localhost:7256/api/TrainigProgram";
+        const enrolledProgramsUrl = "https://localhost:7256/api/EnrollProgram";
+        const paymentsUrl = "https://localhost:7256/api/Payment";
+        const alertsUrl = "https://localhost:7256/api/Alert";
+      
+
+        let members = [];
+        let trainingPrograms = [];
+        let enrolledPrograms = [];
+        let payments = [];
+        
+        async function fetchData() {
+
+            const paymentResponse = await fetch(paymentsUrl);
+            const paymentsWhole = await paymentResponse.json();
+            payments = paymentsWhole.result;
+
+            const memberResponse = await fetch(membersUrl);
+            members = await memberResponse.json();
+
+            const activitiesResponse = await fetch(trainingProgramsUrl);
+            trainingPrograms = await activitiesResponse.json();
+
+            const alertsResponse = await fetch(alertsUrl);
+            alerts = await alertsResponse.json();
+
+            const enrolledProgramsResponse = await fetch(enrolledProgramsUrl);
+            enrolledPrograms = await enrolledProgramsResponse.json();
+        }
+
+        await fetchData();
+
+        const loggedinMember = members.find(member => member.memberId === loggedInUser.memberId);
+        const memberAlerts = alerts.filter(alert => alert.memberId === loggedInUser.memberId && alert.status===true);
+        let alertCount = memberAlerts.length;
+        console.log(alertCount)
+        
+        const loggedinMemberInitialPayment = payments.find(payment=>payment.paymentType === "Initial");
+        const registerDate = loggedinMemberInitialPayment.paidDate;
+        const fromatedRegisterDate = new Date(registerDate).toLocaleDateString('en-US'); 
+
+        const loggedInUserPrograms = enrolledPrograms.filter(program => program.memberId === loggedInUser.memberId);
+
+        displayTrainingPrograms(loggedInUserPrograms);
+        displayMemberTable(loggedinMember);
+
+        function displayMemberTable(loggedinMember) {
+            const userTableBody = document.querySelector("#userInfo tbody");
+            const row = document.createElement("tr");
+            row.innerHTML = `
+            <td>${loggedinMember.memberId}</td>
+            <td>${loggedinMember.firstName}</td>
+            <td>${loggedinMember.lastName}</td>
+            <td>${loggedinMember.nic}</td>
+            <td>${loggedinMember.phone}</td>
+            <td>${fromatedRegisterDate}</td>
+        `;
+            userTableBody.appendChild(row);
+        };
+
+        function displayTrainingPrograms(loggedInUserPrograms) {
+            const grid = document.querySelector('.user');
+            const imgDiv = document.createElement('div');
+            imgDiv.id = "profile"
+            let imagePath = loggedinMember.imagePath;
+            console.log("imgggg",imagePath)
+            let imageFullPath = `https://localhost:7256${imagePath}`;
+            imgDiv.innerHTML = `<img src="${imageFullPath}" alt="" width="250px" height="250px" >`;
+
+            const trainingProgramGrid = document.createElement('div');
+            trainingProgramGrid.className = "card";
+
+            trainingProgramGrid.innerHTML = `
+                
+                <p>${loggedinMember.firstName} ${loggedinMember.lastName}'s Enrolled Programs: </p>
+                <ul>
+                    <p>Cardio</p>
+                    <ul>${generateListItems(loggedInUserPrograms, trainingPrograms, "PT001")}</ul>
+                    <p>Weight Training</p>
+                    <ul>${generateListItems(loggedInUserPrograms, trainingPrograms, "PT002")}</ul>
+                </ul>
+            `;
+            grid.appendChild(imgDiv);
+            grid.appendChild(trainingProgramGrid);
+        };
+
+        function generateListItems(programs, activities, typeId) {
+            const filteredPrograms = programs.filter(program => {
+                const activity = activities.find(activity => activity.programId === program.programId);
+              
+                console.log(activity)
+                return activity && activity.typeId === typeId;
+            });
+            console.log(filteredPrograms)
+
+            if (filteredPrograms.length === 0) {
+                return typeId === "PT001" ? '<p>No cardio programs enrolled</p>' : '<p>No weight training programs enrolled</p>';
+            }
+
+            return filteredPrograms.map(program => {
+                const activity = activities.find(activity => activity.programId === program.programId);
+                return activity ? activity.programName : 'No matching activity';
+            }).join(', ');
+        }
+    })
+
+</script>
