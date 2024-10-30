@@ -1,0 +1,215 @@
+<style>
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #34495e;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #1abc9c;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #1abc9c;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #16a085;
+    }
+
+    #changeInfoCard {
+        margin-top: 10px;
+        background-color: #ecf0f1;
+        max-height: 100vh;
+        height: 500px;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        padding: 20px;
+        border-radius: 10px;
+        /* width: 100%; */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #content {
+        overflow-y: scroll;
+    }
+    #infoChangeContainer{
+        overflow-y: auto;
+        max-height: 500px;
+    }
+</style>
+
+<section id="content">
+    <h2 id="contentTitle">Change PErsonal Information</h2>
+    <div id="changeInfoCard">
+        <div class="row">
+            <div class="col-12">
+                <div id="infoChangeContainer" class="member-info-card-unique">
+
+                    <form id="memberForm" class="member-form-unique">
+                        <label for="firstName" class="form-label-unique">First Name:</label>
+                        <input type="text" id="firstName" class="input-field-unique" placeholder="Enter First Name">
+
+                        <label for="lastName" class="form-label-unique">Last Name:</label>
+                        <input type="text" id="lastName" class="input-field-unique" placeholder="Enter Last Name">
+
+                        <label for="phone" class="form-label-unique">Phone:</label>
+                        <input type="text" id="phone" class="input-field-unique" placeholder="Enter Phone Number">
+
+                        <label for="address" class="form-label-unique">Address:</label>
+                        <input type="text" id="address" class="input-field-unique" placeholder="Enter Address">
+
+                        <label for="address" class="form-label-unique">NIC:</label>
+                        <input type="text" id="nic" class="input-field-unique" placeholder="Enter NIC">
+
+                        <label for="address" class="form-label-unique">Date of Birth:</label>
+                        <input type="date" id="dob" class="input-field-unique" placeholder="Enter NIC">
+
+                        <label for="emrgncyContactName" class="form-label-unique">EmergencyContactName:</label>
+                        <input type="text" id="emrgncyContactName" class="input-field-unique" placeholder="Enter NIC">
+
+                        <label for="emrgncyContactNumber" class="form-label-unique">EmergencyContactNumber:</label>
+                        <input type="text" id="emrgncyContactNumber" class="input-field-unique" placeholder="Enter NIC">
+
+                        <!-- <button type="button" id="saveButton" class="btn-unique">Save Changes</button> -->
+                    </form>
+
+                    <button type="button" id="changeInfoButton" class="btn-unique">Change Info</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+        
+        const membersUrl = "https://localhost:7256/api/Member";
+        const changeInfoRequestsUrl = "https://localhost:7256/api/Request/ChangeMemberInfo";
+        const lastIdsUrl = "https://localhost:7256/api/LastId";
+     
+
+        let members = [];
+        let lastIds = [];
+        
+        async function fetchData() {
+
+            const memberResponse = await fetch(membersUrl);
+            members = await memberResponse.json();
+
+            const lastidsResponse = await fetch(lastIdsUrl);
+            lastIds = await lastidsResponse.json();
+        }
+
+        await fetchData();
+
+        const member = members.find(member => member.memberId === loggedInUser.memberId);
+        console.log(member)
+        if (member) {
+            document.getElementById('firstName').value = member.firstName;
+            document.getElementById('lastName').value = member.lastName;
+            document.getElementById('phone').value = member.phone;
+            document.getElementById('address').value = member.address;
+            document.getElementById('nic').value = member.nic;
+            document.getElementById('dob').value = member.doB.split('T')[0];
+            document.getElementById('emrgncyContactName').value = member.emergencyContactName;
+            document.getElementById('emrgncyContactNumber').value = member.emergencyContactNumber;
+        }
+
+        document.getElementById('changeInfoButton').addEventListener('click', async () => {
+
+            const newApprovalRequest = {
+                RequestId: generateID("AR", lastIds.requestId),
+                RequestType: "changeMemberInfo",
+                MemberId: loggedInUser.memberId,
+                FirstName: document.getElementById('firstName').value,
+                LastName: document.getElementById('lastName').value,
+                Phone: document.getElementById('phone').value,
+                DoB:document.getElementById('dob').value ,
+                NIC:document.getElementById('nic').value ,
+                Address:document.getElementById('address').value,
+                emergencyContactName: document.getElementById('emrgncyContactName').value,
+                emergencyContactNumber: document.getElementById('emrgncyContactNumber').value,
+                Status: "pending"
+            };
+
+            const postResponse = await postApi(changeInfoRequestsUrl,newApprovalRequest);
+            if(postResponse.ok){
+                lastIds.requestId++;
+                updateLastIds(lastIds);
+                alert('Your information change request has been sent to admin for approval!');
+                location.reload();
+            }
+
+        });
+
+
+
+
+        async function putApi(updateURL, id, data) {
+            const response = await fetch(`${updateURL}/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }
+
+        async function postApi(addURL, payload) {
+            const response = await fetch(addURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            return response;
+        }
+
+        async function deleteApi(deleteURL, id) {
+            const response = await fetch(`${deleteURL}/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            return response;
+        }
+
+        async function updateLastIds(data) {
+            const response = await fetch(lastIdsUrl, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }
+
+        const generateID = (prefix, lastId) => {
+            const number = lastId.toString().padStart(3, '0');
+            return `${prefix}${number}`;
+        };
+    })
+</script>
