@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GYMFeeManagement")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6ad8f581583ee9a79dc418d0dc1ed46b3c7dcc4e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+21d30c08ccf014ede94c07dd3073e7b76f4c3a7e")]
 [assembly: System.Reflection.AssemblyProductAttribute("GYMFeeManagement")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GYMFeeManagement")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
