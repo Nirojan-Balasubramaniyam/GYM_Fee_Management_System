@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIT OR Fight</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css"
+        integrity="sha512-72McA95q/YhjwmWFMGe8RI3aZIMCTJWPBbV8iQY3jy1z9+bi6+jHnERuNrDPo/WGYEzzNs4WdHNyyEr/yXJ9pA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+
+    {{style}}
+
+    <style>
+   
+      
+        body{
+            overflow-y: auto;  
+        }
+        .publicContent{
+            padding: 0;
+        }
+      
+    </style>
+
+</head>
+
+<body>
+    <header class="bg-info fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #b71c1c;">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white fw-bolder" href="/">FIT OR FIGHT</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active text-white fw-bold" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active text-white fw-bold" href="/training">Programs</a>
+                        </li>
+  
+                        <li class="nav-item">
+                            <a class="nav-link active text-white fw-bold" href="/calculate">BMI</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active text-white fw-bold" href="/about">About Us</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link active text-white fw-bold" href="/contact">Contact Us</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex">
+                        <a href="/login" class="nav-link login-btn me-3 text-white fw-bold" id="login_btn">LOGIN</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <main style="padding-top: 80px; width: 100%;"> <!-- Adjust padding for fixed navbar -->
+        <div class="container-fluid">
+            <div class="row" >
+                <div class="col-12 publicContent">
+                    {{content}}
+                </div>
+            </div>
+        </div>
+    </main>
+    
+
+    <footer class="bg-dark text-white mt-5 py-3" style="width: 100%;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2>FIT OR FIGHT GYM</h2>
+                    <p>&copy; 2024 fitorfight Gym. All Rights Reserved.</p>
+                    <div class="social-icons">
+                        <a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
+                        <a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fa fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fa fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const members_url = "http://localhost:7000/Members";
+        const usersUrl = "http://localhost:7000/Users";
+
+        async function post_api(url, arr) {
+            await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(arr)
+            });
+        }
+        async function delete_api(url, id) {
+            await fetch(`${url}/${id}`, {
+                method: "DELETE"
+            });
+        }
+
+    </script>
+
+    {{script}}
+
+</body>
+
+</html>

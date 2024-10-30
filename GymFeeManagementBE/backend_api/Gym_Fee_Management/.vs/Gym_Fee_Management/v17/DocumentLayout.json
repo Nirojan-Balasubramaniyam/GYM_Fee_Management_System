@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\rojan\\Desktop\\GYM\\GYM M2 V1\\backend_api\\Gym_Fee_Management\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{EC68C691-F6A9-4F52-BD5C-50FE1819E87A}|Gym_Fee_Management.csproj|c:\\users\\rojan\\desktop\\gym\\gym m2 v1\\backend_api\\gym_fee_management\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC68C691-F6A9-4F52-BD5C-50FE1819E87A}|Gym_Fee_Management.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\rojan\\Desktop\\GYM\\GYM M2 V1\\backend_api\\Gym_Fee_Management\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\rojan\\Desktop\\GYM\\GYM M2 V1\\backend_api\\Gym_Fee_Management\\Program.cs*",
+              "RelativeToolTip": "Program.cs*",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAAwBgAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-16T07:43:41.249Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

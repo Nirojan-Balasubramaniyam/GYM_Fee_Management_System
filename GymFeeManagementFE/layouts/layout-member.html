@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css"
+        integrity="sha512-72McA95q/YhjwmWFMGe8RI3aZIMCTJWPBbV8iQY3jy1z9+bi6+jHnERuNrDPo/WGYEzzNs4WdHNyyEr/yXJ9pA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- <link rel="stylesheet" href="frontend/node_modules/bootstrap-icons/font/bootstrap-icons.css"> -->
+   
+
+    
+
+
+    <link rel="icon" href="../../image/cd.png">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+
+    <link rel="stylesheet" href="../static/css/member-style.css">
+
+    {{style}}
+
+    <style>
+        .navigation {
+            position: fixed;
+            width: 250px;
+            height: 100%;
+            transition: 0.5s;
+            overflow: hidden;
+            background-color: white;
+
+        }
+
+        .navigation.active {
+            width: 60px;
+
+        }
+
+        .navigation ul {
+            position: relative;
+            top: 100px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+        }
+
+        .navigation ul li {
+            position: relative;
+            width: 100%;
+            list-style: none;
+            border-top-left-radius: 30px;
+            border-bottom-left-radius: 30px;
+        }
+
+        .navigation ul li:hover,
+        .navigation ul li.hovered {
+            background-color: #b4b4b4f9;
+        }
+
+        .navigation ul li:nth-child(1) {
+
+            pointer-events: none;
+        }
+
+        .navigation ul li a {
+            position: relative;
+            display: block;
+            width: 100%;
+            display: flex;
+            text-decoration: none;
+            color: rgb(15, 5, 79);
+        }
+
+        .navigation ul li:hover a,
+        .navigation ul li.hovered a {
+            color: rgb(15, 5, 79);
+        }
+
+        .navigation ul li a .icon {
+            position: relative;
+            display: block;
+            min-width: 60px;
+            height: 60px;
+            line-height: 75px;
+            text-align: center;
+
+        }
+
+        .navigation ul li a .icon ion-icon {
+            font-size: 1.95rem;
+        }
+
+        .navigation ul li a .title {
+            position: relative;
+            display: block;
+            padding: 0 10px;
+            height: 60px;
+            line-height: 60px;
+            text-align: start;
+            white-space: nowrap;
+        }
+
+
+        .main {
+            position: absolute;
+            width: calc(100% - 300px);
+            left: 300px;
+            min-height: 100vh;
+            /* background: white; */
+            transition: 0.5s;
+        }
+
+        .main.active {
+            width: calc(100% - 80px);
+            left: 80px;
+        }
+
+        .topbar {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+        }
+
+        /* #sidebar {
+            width: 250px;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            transition: width 0.9s ease, opacity 0.1s ease-out;
+        } */
+
+        .collapsed-sidebar {
+            width: 0px;
+            opacity: 0;
+        }
+
+        .content {
+            transition: margin-left 0.9s ease;
+        }
+
+        .expanded-content {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        #closeBtn {
+            z-index: 1000;
+            position: fixed;
+            top: 10px;
+            left: 190px;
+        }
+
+        #navSide {
+            position: relative;
+            top: 20px;
+        }
+
+        #toggleSidebar {
+            display: none;
+            position: fixed;
+            top: 10px;
+            left: 20px;
+            height: 50px;
+            cursor: pointer;
+        }
+
+        .btn {
+            border: none;
+        }
+
+        .dropdown-menu {
+            margin-left: 10px;
+            padding: 20px;
+            height: 120px;
+            width: 80px;
+        }
+
+        #logOutBtn {
+            position: relative;
+            top: 30px;
+        }
+
+        #logOutBtn a {
+            font-weight: bold;
+            color: #fd1919;
+        }
+
+        /* Custom column widths */
+        .main-collapsed {
+            width: 83.3333%;
+            /* equivalent to col-10 */
+            transition: width 0.3s ease;
+        }
+
+        .main-expanded {
+            width: 91.6667%;
+            /* equivalent to col-11 */
+            transition: width 0.3s ease;
+        }
+
+        #sidebar.hidden {
+            display: none;
+        }
+        #greeting{
+            margin-top: 5px;
+            font-size: 25px;
+           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+           font-weight: 500;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-12">
+                <header>
+                    <a class="text-white" href="/notification"><ion-icon id="notificationBtn" name="notifications-circle-outline"></ion-icon></a>
+                    <p id="greeting">Welcome, <span id="memberName"></span>!</p>
+                </header>
+            </div>
+        </div>
+
+        <div class="row" style="width: 100%; ">
+            <div class="col-2" id="sidebar">
+                <aside style="width: 200px;">
+                    <div class="navigation">
+                        <ul id="navItems">
+                            <div class="topbar" style="  color: #b71c1c;">
+                                <div class="toggle">
+                                    <ion-icon name="menu-outline"></ion-icon>
+                                </div>
+                            </div>
+                            <li>
+                                <a href="/profile">
+                                    <span class="icon">
+                                        <ion-icon name="home-outline"></ion-icon>
+                                    </span>
+                                    <span class="title">Profile</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/bmi">
+                                    <span class="icon">
+                                        <ion-icon name="calculator-outline"></ion-icon>
+                                    </span>
+                                    <span class="title">Calculate BMI</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/make-payment">
+                                    <span class="icon">
+                                        <ion-icon name="card"></ion-icon>
+                                    </span>
+                                    <span class="title">Make Payment</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/change-program">
+                                    <span class="icon">
+                                        <ion-icon name="barbell-outline"></ion-icon>
+                                    </span>
+                                    <span class="title">Change Programs</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/payment-history">
+                                    <span class="icon" style="font-size: 25px;">
+                                        <i class="fa-solid fa-clock-rotate-left"></i>
+                                    </span>
+                                    <span class="title">Payment History</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/change-info">
+                                    <span class="icon">
+                                        <ion-icon name="information-circle-outline"></ion-icon>
+                                    </span>
+                                    <span class="title">Change Member Info</span>
+                                </a>
+                            </li>
+
+                            <li id="logOutBtn">
+                                <a href="/logout">
+                                    <span class="icon">
+                                        <ion-icon name="log-out-outline"></ion-icon>
+                                    </span>
+                                    <span class="title">Log Out</span>
+                                </a>
+                            </li>
+                        </ul>
+
+
+                    </div>
+                </aside>
+            </div>
+
+            <div class="col-10" id="mainContent">
+                <div class="content flex-grow-1" id="contentArea">
+                    <main> {{content}} </main>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-2">
+                <aside id="sidebar">
+                    <button id="toggleSidebar">&times;</button>
+                    <ul id="navItems">
+                        <li><a href="/profile" id="userInfoBtn">User Info</a></li>
+                        <li><a href="/bmi" id="bmiBtn">Calculate BMI</a></li>
+                        <li><a href="/make-payment" id="paymentBtn">Make Payment</a></li>
+                        <li><a href="/change-program" id="changeProgramsBtn">Change Programs</a></li>
+                        <li><a href="/payment-history" id="paymentHistoryBtn">Payment History</a></li>
+                        <li><a href="/change-info" id="changeInfoBtn">Change Member Information</a></li>
+                        <li><a href="/logout" id="logoutBtn">Logout</a></li>
+                    </ul>
+                </aside>
+            </div>
+
+            <div class="col-10">
+                <div class="content flex-grow-1" id="contentArea">
+                    <main> {{content}} </main>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const lastIdsUrl = "https://localhost:7256/api/LastId";
+
+
+        const loggedInUser = JSON.parse(sessionStorage.getItem('loggedinMember'));
+        let userName = document.getElementById('memberName');
+        userName.innerHTML = capitalizeFirstLetter(loggedInUser.userName);
+
+
+        function capitalizeFirstLetter(string) {
+            return string.split('_').map(word => {
+                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            }).join('');
+        }
+
+
+        let toggle = document.querySelector(".toggle");
+        let navigation = document.querySelector(".navigation");
+        let main = document.querySelector(".main");
+        let mainContent = document.getElementById("mainContent");
+
+        toggle.onclick = function () {
+            navigation.classList.toggle("active");
+            main.classList.toggle("active");
+            toggleSidebar()
+
+        };
+
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            if (sidebar.style.display === "none") {
+                sidebar.style.display = "block";
+                mainContent.classList.remove("col-11");
+                mainContent.classList.add("col-10");
+            } else {
+                sidebar.style.display = "none";
+                mainContent.classList.remove("col-10");
+                mainContent.classList.add("col-11");
+            }
+        }
+
+        async function putApi(updateURL, id, data) {
+            const response = await fetch(`${updateURL}/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }
+
+        async function postApi(addURL, payload) {
+            const response = await fetch(addURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            return response;
+        }
+
+        async function deleteApi(deleteURL, id) {
+            const response = await fetch(`${deleteURL}/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            return response;
+        }
+
+        async function updateLastIds(data) {
+            const response = await fetch(lastIdsUrl, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            return response;
+        }
+
+        const generateID = (prefix, lastId) => {
+            const number = lastId.toString().padStart(3, '0');
+            return `${prefix}${number}`;
+        };
+    </script>
+
+    {{script}}
+
+</body>
+
+</html>
