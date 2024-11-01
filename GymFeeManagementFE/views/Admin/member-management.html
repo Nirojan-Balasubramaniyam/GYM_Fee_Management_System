@@ -24,9 +24,9 @@
     #view-all-button,
     #search-button,
     .member-management-btn {
-        padding: 5px 10px;
-        height: 30px;
+        padding: 10px 20px;
         background-color: #28a745;
+        border-radius: 10px;
         color: white;
         border: none;
         cursor: pointer;
@@ -314,6 +314,7 @@
     .memberContainerHeader {
         display: flex;
         justify-content: space-between;
+        /* height: 30px; */
     }
 
     #view-all-button {
@@ -346,7 +347,9 @@
         <div id="memberManageCard">
             <div id="member-management-container">
                 <div class="memberContainerHeader">
-                    <button id="openAddMemberModal" class="member-management-btn">Add New Member</button>
+                    <div>
+                        <button id="openAddMemberModal" class="member-management-btn">Add New Member</button>
+                    </div>
                     <div class="searchSection">
                         <div class="memberSearch">
                             <input type="text" id="search-input" placeholder="Search member by User ID or NIC">
@@ -563,7 +566,6 @@
 
         document.getElementById("search-button").addEventListener("click", () => {
             let memberID = document.getElementById("search-input").value;
-            console.log(memberID)
             displayMembers(memberID);
         })
 
@@ -576,7 +578,7 @@
             const memberTableBody = document.querySelector('#memberTable tbody');
             memberTableBody.innerHTML = "";
 
-            const filteredMembers = memberID ? members.filter(member => member.memberId === memberID) : members;
+            const filteredMembers = memberID ? members.filter(member => member.memberId.toLowerCase() === memberID.toLowerCase()) : members;
             console.log(filteredMembers)
 
             filteredMembers.forEach(member => {
@@ -591,7 +593,7 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td style="color: ${member.userRoll == "admin" ? 'red' : 'inherit'};">${member.memberId}</td>
-                    <td style="color: ${member.userRoll == "admin" ? 'red' : 'inherit'};">${member.firstName} ${member.lastName} ${member.userRoll == "admin" ? 'Admin' : ''}</td>
+                    <td style="color: ${member.userRoll == "admin" ? 'red' : 'inherit'};">${member.firstName} ${member.lastName} ${member.userRoll == "admin" ? ' - Admin' : ''}</td>
                     <td style="color: ${member.userRoll == "admin" ? 'red' : 'inherit'};">${member.phone}</td>
                     <td style="color: ${member.userRoll == "admin" ? 'red' : 'inherit'};">${member.userRoll == "admin" ? 'ADMIN' : monthlyPayment ? 'Rs ' + monthlyPayment : 'N/A'}</td>
                     <td class="d-flex justify-content-around" style="color: ${member.userRoll == "admin" ? 'red' : 'inherit'};">
@@ -635,16 +637,20 @@
         async function deleteMember(memberId) {
             if (confirm("Are you sure you want to delete this member?")) {
                 try {
-                    const memberEnrolledPrograms = enrolledPrograms.filter(program => program.memberId === memberId);
+                    const memberToDelete = members.find(member => member.memberId === memberId);
+                    if (memberToDelete) {
+                        const memberEnrolledPrograms = enrolledPrograms.filter(program => program.memberId === memberId);
 
-                    if (enrolledPrograms.length > 0) {
-                        for (const enrolledProgram of memberEnrolledPrograms) {
-                            await deleteApi(enrolledProgramsUrl, enrolledProgram.enrollProgramId); // Deleting each enrolled program
+                        if (enrolledPrograms.length > 0) {
+                            for (const enrolledProgram of memberEnrolledPrograms) {
+                                await deleteApi(enrolledProgramsUrl, enrolledProgram.enrollProgramId); // Deleting each enrolled program
+                            }
                         }
                     }
+
                     await deleteApi(membersUrl, memberId);
 
-                    alert("Member and their enrolled programs deleted successfully.");
+                    alert(`${memberToDelete.userRoll == "admin" ? 'Admin Deletedsuccessfully' : 'Member and their enrolled programs deleted successfully.'}`);
                     location.reload();
                 } catch (error) {
                     console.error("Error deleting member and enrolled programs:", error);

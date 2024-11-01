@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "eg17mKB3wVIpkvlyGSwc7GR8+BJ8o47hHoEY5ygaqng=",
+  "Hash": "pfpKz3097LyADHe+vDGVP0Xef8/I+oqBIBACVhf0q/s=",
   "Source": "GYMFeeManagement",
   "BasePath": "_content/GYMFeeManagement",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "GYMFeeManagement\\wwwroot",
       "Source": "GYMFeeManagement",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\00ad8277-98a8-4022-8a57-108d44c139b5.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\00ad8277-98a8-4022-8a57-108d44c139b5.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/00ad8277-98a8-4022-8a57-108d44c139b5.jpg",
       "AssetKind": "All",
@@ -36,10 +36,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\00ad8277-98a8-4022-8a57-108d44c139b5.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\0d89b560-73d0-486e-b061-f18e9a3990ea.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\0d89b560-73d0-486e-b061-f18e9a3990ea.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/0d89b560-73d0-486e-b061-f18e9a3990ea.jpg",
       "AssetKind": "All",
@@ -55,10 +55,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\0d89b560-73d0-486e-b061-f18e9a3990ea.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\1ad0ab0f-af96-4a83-acf8-9d4bc0fb336f.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\1ad0ab0f-af96-4a83-acf8-9d4bc0fb336f.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/1ad0ab0f-af96-4a83-acf8-9d4bc0fb336f.jpg",
       "AssetKind": "All",
@@ -74,10 +74,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\1ad0ab0f-af96-4a83-acf8-9d4bc0fb336f.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\1fe08628-d6e8-48ab-a5ad-86329c5988f7.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\1fe08628-d6e8-48ab-a5ad-86329c5988f7.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/1fe08628-d6e8-48ab-a5ad-86329c5988f7.png",
       "AssetKind": "All",
@@ -93,10 +93,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\1fe08628-d6e8-48ab-a5ad-86329c5988f7.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\207895ca-39f3-4770-9efa-8882d52fd7a9.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\207895ca-39f3-4770-9efa-8882d52fd7a9.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/207895ca-39f3-4770-9efa-8882d52fd7a9.jpg",
       "AssetKind": "All",
@@ -112,10 +112,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\207895ca-39f3-4770-9efa-8882d52fd7a9.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\21a611e4-4d86-4208-9747-8730a57c4cb6.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\21a611e4-4d86-4208-9747-8730a57c4cb6.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/21a611e4-4d86-4208-9747-8730a57c4cb6.jpg",
       "AssetKind": "All",
@@ -131,10 +131,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\21a611e4-4d86-4208-9747-8730a57c4cb6.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\28c4042f-96b2-4674-bbf4-f222ce4d5159.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\28c4042f-96b2-4674-bbf4-f222ce4d5159.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/28c4042f-96b2-4674-bbf4-f222ce4d5159.jpg",
       "AssetKind": "All",
@@ -150,10 +150,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\28c4042f-96b2-4674-bbf4-f222ce4d5159.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\2bbe4635-1503-40ca-b1ed-ee604096ec37.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\2bbe4635-1503-40ca-b1ed-ee604096ec37.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/2bbe4635-1503-40ca-b1ed-ee604096ec37.jpg",
       "AssetKind": "All",
@@ -169,10 +169,48 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\2bbe4635-1503-40ca-b1ed-ee604096ec37.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\304bd021-6f63-4822-b004-9776833b4197.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\2f65322e-d54a-4375-9e6f-6a5b2d0ed175.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "BasePath": "_content/GYMFeeManagement",
+      "RelativePath": "profileimages/2f65322e-d54a-4375-9e6f-6a5b2d0ed175.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\profileimages\\2f65322e-d54a-4375-9e6f-6a5b2d0ed175.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\2f9f2499-12a4-47ad-9170-47fdd12535b7.png",
+      "SourceId": "GYMFeeManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "BasePath": "_content/GYMFeeManagement",
+      "RelativePath": "profileimages/2f9f2499-12a4-47ad-9170-47fdd12535b7.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\profileimages\\2f9f2499-12a4-47ad-9170-47fdd12535b7.png"
+    },
+    {
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\304bd021-6f63-4822-b004-9776833b4197.png",
+      "SourceId": "GYMFeeManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/304bd021-6f63-4822-b004-9776833b4197.png",
       "AssetKind": "All",
@@ -188,10 +226,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\304bd021-6f63-4822-b004-9776833b4197.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\344f5ccc-60af-4c2c-a8e5-6644e30401f1.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\344f5ccc-60af-4c2c-a8e5-6644e30401f1.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/344f5ccc-60af-4c2c-a8e5-6644e30401f1.jpg",
       "AssetKind": "All",
@@ -207,10 +245,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\344f5ccc-60af-4c2c-a8e5-6644e30401f1.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\39ed4559-ee09-458e-b5ba-b4e457ae8720.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\39ed4559-ee09-458e-b5ba-b4e457ae8720.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/39ed4559-ee09-458e-b5ba-b4e457ae8720.png",
       "AssetKind": "All",
@@ -226,10 +264,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\39ed4559-ee09-458e-b5ba-b4e457ae8720.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\3a3ee52b-80ed-4445-b758-3578bab53ba9.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\3a3ee52b-80ed-4445-b758-3578bab53ba9.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/3a3ee52b-80ed-4445-b758-3578bab53ba9.jpg",
       "AssetKind": "All",
@@ -245,10 +283,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\3a3ee52b-80ed-4445-b758-3578bab53ba9.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\3fe032bc-1450-4197-99b5-ba7f1a9769c2.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\3fe032bc-1450-4197-99b5-ba7f1a9769c2.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/3fe032bc-1450-4197-99b5-ba7f1a9769c2.png",
       "AssetKind": "All",
@@ -264,10 +302,29 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\3fe032bc-1450-4197-99b5-ba7f1a9769c2.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\548486e3-34d8-4ace-8a94-921292a48afb.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\4d7f3c61-d10a-44b8-a459-9e09b541af12.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "BasePath": "_content/GYMFeeManagement",
+      "RelativePath": "profileimages/4d7f3c61-d10a-44b8-a459-9e09b541af12.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\profileimages\\4d7f3c61-d10a-44b8-a459-9e09b541af12.png"
+    },
+    {
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\548486e3-34d8-4ace-8a94-921292a48afb.png",
+      "SourceId": "GYMFeeManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/548486e3-34d8-4ace-8a94-921292a48afb.png",
       "AssetKind": "All",
@@ -283,10 +340,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\548486e3-34d8-4ace-8a94-921292a48afb.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\5ca83886-e8ef-441e-b117-805b38af1ef1.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\5ca83886-e8ef-441e-b117-805b38af1ef1.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/5ca83886-e8ef-441e-b117-805b38af1ef1.png",
       "AssetKind": "All",
@@ -302,10 +359,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\5ca83886-e8ef-441e-b117-805b38af1ef1.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\6053f27f-9b34-476a-8e5b-4ee118e78e96.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\6053f27f-9b34-476a-8e5b-4ee118e78e96.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/6053f27f-9b34-476a-8e5b-4ee118e78e96.jpg",
       "AssetKind": "All",
@@ -321,10 +378,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\6053f27f-9b34-476a-8e5b-4ee118e78e96.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\6d445215-8fff-4d4b-8ebd-df8e694807d1.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\6d445215-8fff-4d4b-8ebd-df8e694807d1.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/6d445215-8fff-4d4b-8ebd-df8e694807d1.jpg",
       "AssetKind": "All",
@@ -340,10 +397,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\6d445215-8fff-4d4b-8ebd-df8e694807d1.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\6f40d02c-be67-45eb-aafa-820f30a21869.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\6f40d02c-be67-45eb-aafa-820f30a21869.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/6f40d02c-be67-45eb-aafa-820f30a21869.png",
       "AssetKind": "All",
@@ -359,10 +416,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\6f40d02c-be67-45eb-aafa-820f30a21869.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\820486e1-c434-45c8-bab4-d0640aec099a.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\820486e1-c434-45c8-bab4-d0640aec099a.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/820486e1-c434-45c8-bab4-d0640aec099a.jpg",
       "AssetKind": "All",
@@ -378,10 +435,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\820486e1-c434-45c8-bab4-d0640aec099a.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\95fa5a9e-9061-46dc-9091-4a9ca7b0fdb5.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\95fa5a9e-9061-46dc-9091-4a9ca7b0fdb5.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/95fa5a9e-9061-46dc-9091-4a9ca7b0fdb5.png",
       "AssetKind": "All",
@@ -397,10 +454,29 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\95fa5a9e-9061-46dc-9091-4a9ca7b0fdb5.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\aef7ee8b-9e8e-43a3-9e82-7ddb69ec2fe9.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\96dee5b1-0370-4c1b-b79b-92edca4cdf04.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "BasePath": "_content/GYMFeeManagement",
+      "RelativePath": "profileimages/96dee5b1-0370-4c1b-b79b-92edca4cdf04.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\profileimages\\96dee5b1-0370-4c1b-b79b-92edca4cdf04.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\aef7ee8b-9e8e-43a3-9e82-7ddb69ec2fe9.jpg",
+      "SourceId": "GYMFeeManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/aef7ee8b-9e8e-43a3-9e82-7ddb69ec2fe9.jpg",
       "AssetKind": "All",
@@ -416,10 +492,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\aef7ee8b-9e8e-43a3-9e82-7ddb69ec2fe9.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\b0a1fc78-ec2d-44ed-b9c7-7314057c9d16.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\b0a1fc78-ec2d-44ed-b9c7-7314057c9d16.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/b0a1fc78-ec2d-44ed-b9c7-7314057c9d16.png",
       "AssetKind": "All",
@@ -435,10 +511,29 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\b0a1fc78-ec2d-44ed-b9c7-7314057c9d16.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\ba98f22f-1ae6-427f-994c-dcb7c4158dcd.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\b75a4777-a6e2-4cc1-8d39-25a3223b1cd7.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "BasePath": "_content/GYMFeeManagement",
+      "RelativePath": "profileimages/b75a4777-a6e2-4cc1-8d39-25a3223b1cd7.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\profileimages\\b75a4777-a6e2-4cc1-8d39-25a3223b1cd7.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\ba98f22f-1ae6-427f-994c-dcb7c4158dcd.jpg",
+      "SourceId": "GYMFeeManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/ba98f22f-1ae6-427f-994c-dcb7c4158dcd.jpg",
       "AssetKind": "All",
@@ -454,10 +549,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\ba98f22f-1ae6-427f-994c-dcb7c4158dcd.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\be428c39-5789-450d-8a59-9b9cb7181a6e.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\be428c39-5789-450d-8a59-9b9cb7181a6e.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/be428c39-5789-450d-8a59-9b9cb7181a6e.png",
       "AssetKind": "All",
@@ -473,10 +568,29 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\be428c39-5789-450d-8a59-9b9cb7181a6e.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\cfa3e34a-6d07-436d-9cdd-6a9c7b744b25.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\c68e90ee-19a6-4040-afc4-d19936afa6d9.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "BasePath": "_content/GYMFeeManagement",
+      "RelativePath": "profileimages/c68e90ee-19a6-4040-afc4-d19936afa6d9.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\profileimages\\c68e90ee-19a6-4040-afc4-d19936afa6d9.png"
+    },
+    {
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\cfa3e34a-6d07-436d-9cdd-6a9c7b744b25.png",
+      "SourceId": "GYMFeeManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/cfa3e34a-6d07-436d-9cdd-6a9c7b744b25.png",
       "AssetKind": "All",
@@ -492,10 +606,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\cfa3e34a-6d07-436d-9cdd-6a9c7b744b25.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\d6baa673-3a51-4484-85b9-bc6c7aaf44c1.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\d6baa673-3a51-4484-85b9-bc6c7aaf44c1.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/d6baa673-3a51-4484-85b9-bc6c7aaf44c1.jpg",
       "AssetKind": "All",
@@ -511,10 +625,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\d6baa673-3a51-4484-85b9-bc6c7aaf44c1.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\d942aee6-5290-420c-8c33-bbc2bf46b0aa.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\d942aee6-5290-420c-8c33-bbc2bf46b0aa.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/d942aee6-5290-420c-8c33-bbc2bf46b0aa.png",
       "AssetKind": "All",
@@ -530,10 +644,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\d942aee6-5290-420c-8c33-bbc2bf46b0aa.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\dd3553fd-f123-4c75-a0bd-ecb0d4211aeb.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\dd3553fd-f123-4c75-a0bd-ecb0d4211aeb.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/dd3553fd-f123-4c75-a0bd-ecb0d4211aeb.jpg",
       "AssetKind": "All",
@@ -549,10 +663,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\dd3553fd-f123-4c75-a0bd-ecb0d4211aeb.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\de3195cc-8c17-4dce-9a01-35c52a828967.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\de3195cc-8c17-4dce-9a01-35c52a828967.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/de3195cc-8c17-4dce-9a01-35c52a828967.png",
       "AssetKind": "All",
@@ -568,10 +682,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\de3195cc-8c17-4dce-9a01-35c52a828967.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\e41881fa-b906-4441-82c7-3fbbe045b626.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\e41881fa-b906-4441-82c7-3fbbe045b626.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/e41881fa-b906-4441-82c7-3fbbe045b626.jpg",
       "AssetKind": "All",
@@ -587,10 +701,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\e41881fa-b906-4441-82c7-3fbbe045b626.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\e5a5a72c-8a95-4f97-bbb5-f89164879def.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\e5a5a72c-8a95-4f97-bbb5-f89164879def.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/e5a5a72c-8a95-4f97-bbb5-f89164879def.jpg",
       "AssetKind": "All",
@@ -606,10 +720,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\e5a5a72c-8a95-4f97-bbb5-f89164879def.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\ebc517ca-0450-4409-b01d-d8cbeb0f7bc4.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\ebc517ca-0450-4409-b01d-d8cbeb0f7bc4.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/ebc517ca-0450-4409-b01d-d8cbeb0f7bc4.png",
       "AssetKind": "All",
@@ -625,10 +739,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\ebc517ca-0450-4409-b01d-d8cbeb0f7bc4.png"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\ebd29e7b-020f-4791-97a8-22d17d6e255c.jpeg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\ebd29e7b-020f-4791-97a8-22d17d6e255c.jpeg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/ebd29e7b-020f-4791-97a8-22d17d6e255c.jpeg",
       "AssetKind": "All",
@@ -644,10 +758,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\ebd29e7b-020f-4791-97a8-22d17d6e255c.jpeg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\f250c506-5cf5-4dfc-9740-0dc8f2117893.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\f250c506-5cf5-4dfc-9740-0dc8f2117893.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/f250c506-5cf5-4dfc-9740-0dc8f2117893.jpg",
       "AssetKind": "All",
@@ -663,10 +777,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\f250c506-5cf5-4dfc-9740-0dc8f2117893.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\f940c82d-351f-40f4-9834-c35b8f249b36.jpg",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\f940c82d-351f-40f4-9834-c35b8f249b36.jpg",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/f940c82d-351f-40f4-9834-c35b8f249b36.jpg",
       "AssetKind": "All",
@@ -682,10 +796,10 @@
       "OriginalItemSpec": "wwwroot\\profileimages\\f940c82d-351f-40f4-9834-c35b8f249b36.jpg"
     },
     {
-      "Identity": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\f9837577-f444-416d-a65b-f5b578e95fdf.png",
+      "Identity": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\profileimages\\f9837577-f444-416d-a65b-f5b578e95fdf.png",
       "SourceId": "GYMFeeManagement",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\wwwroot\\",
       "BasePath": "_content/GYMFeeManagement",
       "RelativePath": "profileimages/f9837577-f444-416d-a65b-f5b578e95fdf.png",
       "AssetKind": "All",

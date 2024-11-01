@@ -116,7 +116,8 @@ namespace GYMFeeManagement.Repositories
                             EmergencyContactName = reader.GetString(10),
                             EmergencyContactNumber = reader.GetString(11),
                             UserRoll = reader.GetString(12),
-                            ImagePath = reader.GetString(13) == "" ? "/profileimages/ebd29e7b-020f-4791-97a8-22d17d6e255c.jpeg" : reader.GetString(13),
+                            ImagePath = reader.IsDBNull(13) ? "/profileimages/f250c506-5cf5-4dfc-9740-0dc8f2117893.jpg.jpg" : reader.GetString(13),
+
                         };
                     }
                     else

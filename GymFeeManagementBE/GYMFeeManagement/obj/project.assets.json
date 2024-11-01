@@ -2373,11 +2373,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\GYMFeeManagement.csproj",
+      "projectUniqueName": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\GYMFeeManagement.csproj",
       "projectName": "GYMFeeManagement",
-      "projectPath": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\GYMFeeManagement.csproj",
+      "projectPath": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\GYMFeeManagement.csproj",
       "packagesPath": "C:\\Users\\rojan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rojan\\Desktop\\GymFeeManagement\\GymFeeManagementBE\\GYMFeeManagement\\obj\\",
+      "outputPath": "C:\\Users\\rojan\\Downloads\\New folder (2)\\GYM_Fee_Management_System\\GymFeeManagementBE\\GYMFeeManagement\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\rojan\\AppData\\Roaming\\NuGet\\NuGet.Config",
