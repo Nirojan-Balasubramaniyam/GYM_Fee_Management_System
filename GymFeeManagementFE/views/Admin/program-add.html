@@ -285,7 +285,7 @@
                 const programType = newRow.querySelector('select').value;
                 const programCost = newRow.querySelector('input[type="number"]').value;
 
-                if (!programName.value || !programType.value || !programCost.value) {
+                if (!programName || !programType || !programCost) {
                     alert("Please fill out all fields.");
                     return;
                 }

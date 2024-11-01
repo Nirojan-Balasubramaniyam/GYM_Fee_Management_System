@@ -540,6 +540,8 @@
         let payments = [];
         let lastIds = [];
         let editingMemberId = null;
+        let editingUserRoll = '';
+        let editingMemberProfile = '';
 
         const paymentResponse = await fetch(paymentsUrl);
         payments = await paymentResponse.json();
@@ -580,27 +582,26 @@
             filteredMembers.forEach(member => {
                 const memberId = member.memberId;
                 const loggedInUserPrograms = enrolledPrograms.filter(program => program.memberId === memberId);
-                const monthlyPayment = payments.result.find(payment => payment.memberId === memberId && payment.paymentType === "Monthly");
-                const cardioPrograms = generateListItems(loggedInUserPrograms, trainingPrograms, "PT001");
-                const weightTrainingPrograms = generateListItems(loggedInUserPrograms, trainingPrograms, "PT002");
-                const programList = `
-                            <ul>
-                                <b>Cardio</b>
-                                <ul>${cardioPrograms}</ul>
-                                <b>Weight Training</b>
-                                <ul>${weightTrainingPrograms}</ul>
-                            </ul>`;
+                const memberPrograms = enrolledPrograms.filter(program => program.memberId === member.memberId);
+                const monthlyPayment = memberPrograms.reduce((total, program) => {
+                    const activity = trainingPrograms.find(activity => activity.programId === program.programId);
+                    return total + (activity ? activity.cost : 0);
+                }, 0);
 
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                            <td>${member.memberId}</td>
-                            <td>${member.firstName} ${member.lastName}</td>
-                            <td>${member.phone}</td>
-                            <td>Rs ${monthlyPayment ? monthlyPayment.amount : 'N/A'}</td>
-                            <td class="d-flex justify-content-around">
-                                <button class="edit-btn"><i class="fa-solid fa-pen-to-square"></i></button>
-                                <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
-                            </td>`;
+                    <td style="color: ${member.userRoll == "admin" ? 'red' : 'inherit'};">${member.memberId}</td>
+                    <td style="color: ${member.userRoll == "admin" ? 'red' : 'inherit'};">${member.firstName} ${member.lastName} ${member.userRoll == "admin" ? 'Admin' : ''}</td>
+                    <td style="color: ${member.userRoll == "admin" ? 'red' : 'inherit'};">${member.phone}</td>
+                    <td style="color: ${member.userRoll == "admin" ? 'red' : 'inherit'};">${member.userRoll == "admin" ? 'ADMIN' : monthlyPayment ? 'Rs ' + monthlyPayment : 'N/A'}</td>
+                    <td class="d-flex justify-content-around" style="color: ${member.userRoll == "admin" ? 'red' : 'inherit'};">
+                        <button class="edit-btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+                    </td>`;
+
+                if (member.userRoll == "admin") {
+                    row.style.color = "red";
+                }
 
                 const editBtn = row.querySelector('.edit-btn');
                 const deleteBtn = row.querySelector('.delete-btn');
@@ -662,7 +663,7 @@
 
 
             if (memberToEdit) {
-                const dob = new Date(memberToEdit.doB); 
+                const dob = new Date(memberToEdit.doB);
                 const formattedDob = dob.toISOString().split('T')[0];
                 document.getElementById('firstName').value = memberToEdit.firstName;
                 document.getElementById('lastName').value = memberToEdit.lastName;
@@ -675,6 +676,8 @@
                 document.getElementById('address').value = memberToEdit.address;
                 document.getElementById('emergencyContactName').value = memberToEdit.emergencyContactName;
                 document.getElementById('emergencyContactNumber').value = memberToEdit.emergencyContactNumber;
+                editingUserRoll = memberToEdit.userRoll == "admin" ? 'admin' : 'member';
+                editingMemberProfile = memberToEdit.imagePath;
 
                 document.querySelector('.form-radio-group').style.display = 'none';
                 document.getElementById('saveMemberBtn').textContent = "Edit Member";
@@ -831,8 +834,8 @@
                     address: address,
                     emergencyContactName: emergencyContactName,
                     emergencyContactNumber: emergencyContactNumber,
-                    userRoll: isAddingAdmin ? "admin" : "member",
-                    imagePath: ""
+                    userRoll: editingUserRoll,
+                    imagePath: editingMemberProfile
                 };
 
                 const formData = new FormData();
@@ -840,7 +843,9 @@
                 formData.append("ImageFile", fileInput[0]);
 
                 const memberUpdateResponse = await putApi(membersUrl, editingMemberId, updatedMember);
-                const memberProfileUpdateResponse = await updateMember(profilePicUpdateUrl, formData);
+                if (fileInput.length > 0) {
+                    const memberProfileUpdateResponse = await updateMember(profilePicUpdateUrl, formData);
+                }
 
                 if (memberUpdateResponse.ok) {
                     alert("Member updated successfully!");

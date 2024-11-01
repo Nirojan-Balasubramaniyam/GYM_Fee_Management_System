@@ -319,6 +319,50 @@
         };
 
 
+        // function openModal(request) {
+        //     currentRequest = request;
+        //     requestDetailsDiv.innerHTML = '';
+
+        //     const table = document.createElement('table');
+        //     table.style.width = '90%';
+        //     table.style.textAlign = 'center';
+        //     table.style.borderCollapse = 'collapse';
+
+        //     Object.keys(request).forEach((key) => {
+        //         const value = request[key];
+
+        //         // Skip only null and 0 values but still process the other fields
+        //         if (value === null || value === 0 || value === "") {
+        //             return; // Skip this field only, but allow other fields to display
+        //         }
+
+        //         const row = document.createElement('tr');
+
+        //         const keyCell = document.createElement('th');
+        //         keyCell.textContent = capitalizeFirstLetter(key);
+        //         keyCell.style.border = '1px solid #ddd';
+        //         keyCell.style.padding = '8px';
+
+        //         keyCell.style.backgroundColor = '#f2f2f2';
+
+        //         const valueCell = document.createElement('td');
+        //         valueCell.textContent = JSON.stringify(value, null, 2).replace(/^"|"$/g, '');
+        //         valueCell.style.border = '1px solid #ddd';
+        //         valueCell.style.padding = '8px';
+
+        //         row.appendChild(keyCell);
+        //         row.appendChild(valueCell);
+        //         table.appendChild(row);
+        //     });
+
+        //     requestDetailsDiv.appendChild(table);
+        //     if (request.status === "rejected" || request.status === "accepted") {
+        //         document.getElementById("acceptBtn").style.display = "none";
+        //         document.getElementById("rejectBtn").style.display = "none";
+        //     }
+        //     viewModal.style.display = 'block';
+        // }
+
         function openModal(request) {
             currentRequest = request;
             requestDetailsDiv.innerHTML = '';
@@ -329,11 +373,13 @@
             table.style.borderCollapse = 'collapse';
 
             Object.keys(request).forEach((key) => {
+                if (key === 'status') return; // Skip 'status' here to add it later
+
                 const value = request[key];
 
-                // Skip only null and 0 values but still process the other fields
+                // Skip only null, 0, and empty string values
                 if (value === null || value === 0 || value === "") {
-                    return; // Skip this field only, but allow other fields to display
+                    return;
                 }
 
                 const row = document.createElement('tr');
@@ -342,7 +388,6 @@
                 keyCell.textContent = capitalizeFirstLetter(key);
                 keyCell.style.border = '1px solid #ddd';
                 keyCell.style.padding = '8px';
-
                 keyCell.style.backgroundColor = '#f2f2f2';
 
                 const valueCell = document.createElement('td');
@@ -355,13 +400,43 @@
                 table.appendChild(row);
             });
 
+            // Add status as the last row
+            const statusRow = document.createElement('tr');
+
+            const statusKeyCell = document.createElement('th');
+            statusKeyCell.textContent = 'Status';
+            statusKeyCell.style.border = '1px solid #ddd';
+            statusKeyCell.style.padding = '8px';
+            statusKeyCell.style.backgroundColor = '#f2f2f2';
+
+            const statusValueCell = document.createElement('td');
+            statusValueCell.textContent = request.status;
+            statusValueCell.style.border = '1px solid #ddd';
+            statusValueCell.style.padding = '8px';
+
+            let statusColor = "black";
+            if(request.status.toLowerCase() == "accepted"){
+                statusColor = "green";
+            } else {
+                statusColor = "red"
+            }
+            statusRow.style.color = statusColor;
+
+            statusRow.appendChild(statusKeyCell);
+            statusRow.appendChild(statusValueCell);
+            table.appendChild(statusRow);
+
             requestDetailsDiv.appendChild(table);
+
+            // Hide buttons if status is 'rejected' or 'accepted'
             if (request.status === "rejected" || request.status === "accepted") {
                 document.getElementById("acceptBtn").style.display = "none";
                 document.getElementById("rejectBtn").style.display = "none";
             }
+
             viewModal.style.display = 'block';
         }
+
 
 
 
@@ -392,7 +467,7 @@
                 viewModal.style.display = 'none';
             }
             await fetchData();
-             location.reload();
+            location.reload();
         });
 
         async function handleProgramLeaveRequest(request) {
@@ -432,20 +507,20 @@
             let newMemberId = generateID("M", lastIds.memberId);
 
             const newMember = {
-                    memberId:newMemberId,
-                    firstName: request.firstName,
-                    lastName: request.lastName,
-                    userName: request.userName,
-                    password: request.password,
-                    nic: request.nic,
-                    phone: request.phone,
-                    doB: request.dob,
-                    gender: request.gender,
-                    address:  request.address,
-                    emergencyContactName: request.emergencyContactName,
-                    emergencyContactNumber: request.emergencyContactNumber,
-                    userRoll: "member",
-                };
+                memberId: newMemberId,
+                firstName: request.firstName,
+                lastName: request.lastName,
+                userName: request.userName,
+                password: request.password,
+                nic: request.nic,
+                phone: request.phone,
+                doB: request.dob,
+                gender: request.gender,
+                address: request.address,
+                emergencyContactName: request.emergencyContactName,
+                emergencyContactNumber: request.emergencyContactNumber,
+                userRoll: "member",
+            };
 
             const formData = new FormData();
             formData.append("MemberId", newMemberId);
@@ -462,7 +537,7 @@
             formData.append("EmergencyContactNumber", request.emergencyContactNumber);
             formData.append("UserRoll", "member");
 
-           
+
 
             // Send formData without ImageFile if no file is selected
 
